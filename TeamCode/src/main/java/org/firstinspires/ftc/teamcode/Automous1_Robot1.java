@@ -47,7 +47,7 @@ public class Automous1_Robot1 extends ThunderbotsVuforiaSkyStoneNavigationWebcam
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
-    static final double     ARM_SPEED               = 0.3;
+    static final double     ARM_SPEED               = 0.4;
 
     @Override
     public void runOpMode() {
