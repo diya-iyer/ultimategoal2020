@@ -12,22 +12,7 @@ public class UGOpMode_Linear extends LinearOpMode {
     double rightForwardPower;
     double leftBackwardPower;
     double rightBackwardPower;
-    double ArmDownUp;
-    final double CLAWINCREMENT = 0.5;
-    final double BASEINCREMENT = 1.5;
-    final double SIDEARMINCREMENT = 1;
-    final double CAPSTONEINCREMENT = 0.2;
-    final double WRISTINCREMENT = 1.5;
-    //final double CAPSTONE = 0.5;
-    final double CAPSTONE_DROP_POS = 1.0;
-    final double CAPSTONE_START_POS = 0.5;
 
-    final double BASEPULL = 0.7;
-    double basepullposition = 0;
-    double sidearmposition = 0.5;
-    double wristposition = 0;
-    double foundationposition = 0;
-    double capstoneposition = 0;
     double MAX_POS = 3.0;     // Maximum rotational position
     double MIN_POS = 0.0;     // Minimum rotational position
 
@@ -63,11 +48,6 @@ public class UGOpMode_Linear extends LinearOpMode {
             // Setup a variable for each drive wheel to save power level for telemetry
 
             driveMacChasis();
-            pickUpBrick();
-            powerChange();
-            tapemeasurepark();
-            capstonedrop();
-            sidearmpickupbrick();
             telemetry.update();
         }
 
@@ -169,170 +149,5 @@ public class UGOpMode_Linear extends LinearOpMode {
 
     }
 
-    public void pickUpBrick() {
-        boolean drivePickDown = gamepad2.dpad_down;
-        boolean drivePickUp = gamepad2.dpad_up;
-        boolean clawopen = gamepad2.dpad_right;
-        boolean clawclose = gamepad2.dpad_left;
-        double clawposition = robot.rightClaw.getPosition();
-        boolean upfoundationarm = gamepad2.y;
-        boolean downfoundationarm = gamepad2.a;
-        double elbowUpDown = gamepad2.right_stick_y;
-
-        MAX_POS = this.robot.rightClaw.MAX_POSITION;
-        MIN_POS = this.robot.rightClaw.MIN_POSITION;
-
-
-        boolean armStop = false;
-
-        if ((gamepad2.right_stick_y == 0))
-            armStop = true;
-
-        double powerMultiplier = 0.6;
-        double powerMultiplierArm = 0.8;
-
-
-        if (!drivePickDown && !drivePickUp) {
-
-            robot.CenterRightArm.setPower(0);
-            robot.CenterLeftArm.setPower(0);
-        }
-
-        if (drivePickUp) {
-            robot.CenterRightArm.setPower(powerMultiplier);
-            robot.CenterLeftArm.setPower(-powerMultiplier);
-        } else if (drivePickDown) {
-            robot.CenterRightArm.setPower(-powerMultiplier);
-            robot.CenterLeftArm.setPower(powerMultiplier);
-        } else if (clawopen) {
-            telemetry.addData("Claw open", clawposition);
-            if (clawposition <= MAX_POS) {
-                clawposition += CLAWINCREMENT;
-            }
-            robot.rightClaw.setPosition(clawposition);
-        } else if (clawclose) {
-            telemetry.addData("Claw close", clawposition);
-            if (clawposition >= MIN_POS) {
-                clawposition -= CLAWINCREMENT;
-            }
-            robot.rightClaw.setPosition(clawposition);
-
-        }
-        if (armStop) {
-
-            robot.elbow.setPower(0);
-
-        }
-        if (elbowUpDown < 0) {
-
-            telemetry.addData("Status", "ElbowMovingUp");
-            robot.elbow.setPower(powerMultiplierArm);
-
-        } else if (elbowUpDown > 0) {
-            telemetry.addData("Status", "ElbowMovingDown");
-            robot.elbow.setPower(-powerMultiplierArm);
-
-        }
-        if (upfoundationarm) {
-            telemetry.addData("Status", "FoundationArmUp");
-
-            basepullposition = this.robot.basepull1.MIN_POSITION+BASEINCREMENT;
-            robot.basepull1.setPosition(basepullposition);
-
-            basepullposition = this.robot.capstone. MAX_POSITION-BASEINCREMENT;
-            robot.basepull2.setPosition(basepullposition);
-
-        } else if (downfoundationarm) {
-            telemetry.addData("Status", "FoundationArmDown");
-
-            basepullposition = this.robot.capstone. MAX_POSITION-BASEINCREMENT;
-            robot.basepull1.setPosition(basepullposition);
-
-            basepullposition = this.robot.basepull1.MIN_POSITION+BASEINCREMENT;
-            robot.basepull2.setPosition(basepullposition);
-
-
-
-        }
-        telemetry.addData("Arms & Claw", "left (%.2f), right (%.2f)", robot.CenterRightArm.getPower(), robot.CenterLeftArm.getPower(), robot.rightClaw.getPosition());
-        telemetry.addData("Elbow", "left (%.2f)", robot.elbow.getPower());
-        telemetry.addData("Base Pull 1 & 2 ", "left (%.2f) left (%.2f)", robot.basepull1.getPosition(),robot.basepull2.getPosition());
-
-
 
     }
-
-    public void powerChange() {
-
-        boolean powerDown = gamepad1.dpad_down;
-        boolean powerUp = gamepad1.dpad_up;
-
-
-        if (powerMultiplier < MAX_POWER && powerUp) {
-            powerMultiplier = powerMultiplier + POWER_INCREMENT;
-        } else if (powerMultiplier > 0 && powerDown) {
-            powerMultiplier = powerMultiplier + POWER_INCREMENT;
-        }
-
-
-        telemetry.addData("Power Multiplier", "left (%.2f)", powerMultiplier);
-
-
-    }
-
-    public void tapemeasurepark() {
-
-        //boolean releasecapstone = gamepad2.start;
-        boolean extendtape = gamepad1.x;
-        boolean reducetape = gamepad1.b;
-        //switched controls to body driver so buttons freed up for arm
-        if (!extendtape && !reducetape)
-            robot.tapemeasurer.setPower(0);
-        if (extendtape) {
-            telemetry.addData("Status", "TapeOut");
-            robot.tapemeasurer.setPower(ParkpowerMultiplier);
-        } else if (reducetape) {
-            telemetry.addData("Status", "TapeIn");
-            robot.tapemeasurer.setPower(-ParkpowerMultiplier);
-        }
-    }
-
-    public void capstonedrop() {
-
-        boolean dropcapstone = gamepad2.left_bumper;
-        ;
-        boolean liftcapstone = gamepad2.right_bumper;
-
-        telemetry.addData("Capstone - Current position", "left (%.2f)", robot.capstone.getPosition());
-        if (dropcapstone)
-            capstoneposition = this.robot.capstone.MIN_POSITION+CAPSTONEINCREMENT;
-
-        else if (liftcapstone)
-            capstoneposition = this.robot.capstone.MAX_POSITION-CAPSTONEINCREMENT;
-
-        robot.capstone.setPosition(capstoneposition);
-        telemetry.addData("Capstone - New position", "left (%.2f)", robot.capstone.getPosition());
-
-
-    }
-
-    public void sidearmpickupbrick() {
-
-        boolean dropsidearm = gamepad2.x;
-        boolean liftsidearm = gamepad2.b;
-
-        if (liftsidearm) {
-            telemetry.addData("Status", "SideArmUp");
-
-            sidearmposition = this.robot.sideArm.MAX_POSITION;
-            robot.sideArm.setPosition(sidearmposition);
-        } else if (dropsidearm) {
-            telemetry.addData("Status", "SideArmDown");
-
-            sidearmposition = this.robot.sideArm.MAX_POSITION - SIDEARMINCREMENT;
-            robot.sideArm.setPosition(sidearmposition);
-        }
-
-
-    }
-}
