@@ -63,8 +63,8 @@ public class MacHardwarePushbot
     public DcMotor  rightDrive2  = null;
 
     //public DcMotor  leftArm     = null;
+    public DcMotor CenterRightArm = null;
     public DcMotor  elbow       = null;
-    public DcMotor  CenterRightArm    = null;
     public DcMotor  CenterLeftArm     = null;
     public Servo    leftClaw    = null;
     public Servo    rightClaw   = null;
@@ -104,7 +104,6 @@ public class MacHardwarePushbot
         rightDrive1 = hwMap.get(DcMotor.class, "right_drive1");
         leftDrive2  = hwMap.get(DcMotor.class, "left_drive2");
         rightDrive2 = hwMap.get(DcMotor.class, "right_drive2");
-
         CenterRightArm = hwMap.get(DcMotor.class, "CenterRightArm");
         CenterLeftArm = hwMap.get(DcMotor.class, "CenterLeftArm");
         rightClaw = hwMap.get(Servo.class, "right_claw");
