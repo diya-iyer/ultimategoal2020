@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,6 +15,9 @@ public class UGHardwarePushbot {
         public DcMotor  rightDrive1  = null;
         public DcMotor  leftDrive2   = null;
         public DcMotor  rightDrive2  = null;
+        public DcMotor intake = null;
+        public DcMotor collector = null;
+        public DcMotor shooter = null;
 
 
         /* local OpMode members. */
@@ -36,11 +40,19 @@ public class UGHardwarePushbot {
             leftDrive2  = hwMap.get(DcMotor.class, "left_drive2");
             rightDrive2 = hwMap.get(DcMotor.class, "right_drive2");
 
+            intake = hwMap.get(DcMotor.class, "intake");
+            collector = hwMap.get(DcMotor.class, "collector");
+            shooter = hwMap.get(DcMotor.class,"shooter");
+
 
             leftDrive1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
             rightDrive1.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
             leftDrive2.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
             rightDrive2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+
+            intake.setDirection(DcMotor.Direction.FORWARD);
+            collector.setDirection(DcMotor.Direction.FORWARD);
+            shooter.setDirection(DcMotor.Direction.FORWARD);
 
             // Set all motors to zero power
             leftDrive1.setPower(0);
@@ -48,12 +60,20 @@ public class UGHardwarePushbot {
             leftDrive2.setPower(0);
             rightDrive2.setPower(0);
 
+            intake.setPower(0);
+            collector.setPower(0);
+            shooter.setPower(0);
+
             // Set all motors to run without encoders.
             // May want to use RUN_USING_ENCODERS if encoders are installed.
             leftDrive1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightDrive1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             leftDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         }

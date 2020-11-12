@@ -48,6 +48,9 @@ public class UGOpMode_Linear extends LinearOpMode {
             // Setup a variable for each drive wheel to save power level for telemetry
 
             driveMacChasis();
+            collectRing();
+            shootRing();
+            wobbleGoal();
             telemetry.update();
         }
 
@@ -149,5 +152,22 @@ public class UGOpMode_Linear extends LinearOpMode {
 
     }
 
+    public void collectRing() {
+
+        float inhaleRing = gamepad1.left_trigger;
+
+        if (inhaleRing > 0) {
+
+            telemetry.addData("Status", "Inhaling Ring");
+            telemetry.update();
+
+            robot.intake.setPower(powerMultiplier);
+        }
+    }
+    public void shootRing() {
 
     }
+    public void wobbleGoal() {
+
+    }
+}
