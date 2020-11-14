@@ -12,12 +12,28 @@ public class UGOpMode_Linear extends LinearOpMode {
     double rightForwardPower;
     double leftBackwardPower;
     double rightBackwardPower;
+    double intakePower;
+    double shooterPower;
 
     double MAX_POS = 3.0;     // Maximum rotational position
     double MIN_POS = 0.0;     // Minimum rotational position
 
+    double wobbleClawPositon = 0;
+    double collectorPosition = 0;
+    double triggerPosition = 0;
+
+    boolean startInhaler = false;
+    boolean stopInhaler = true;
+    boolean startWheel = false;
+    boolean stopWheel = true;
+    boolean collectorUp = false;
+    boolean collectordown = true;
+
 
     double powerMultiplier = 1.0; // 1.0
+    double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
+    double COLLECTORINCREMENT = 1.0;
+    double TRIGGERINCREMENT = 1.0;
     double ParkpowerMultiplier = .9;
     double MAX_POWER = 1.0;    // 1.00
     double POWER_INCREMENT = 0.2;
@@ -154,20 +170,106 @@ public class UGOpMode_Linear extends LinearOpMode {
 
     public void collectRing() {
 
-        float inhaleRing = gamepad1.left_trigger;
+        boolean inhaleRing = gamepad1.y;
+        boolean shootRing = gamepad1.y;
 
-        if (inhaleRing > 0) {
+        if (inhaleRing && shootRing) {
 
-            telemetry.addData("Status", "Inhaling Ring");
-            telemetry.update();
+            if (startInhaler && startWheel) { //inhaler is already running
+                stopInhaler = true;
+                startInhaler = false;
+                stopWheel = true;
+                startWheel = false;
+            } else { //the inhaler is not running
+                startInhaler = true;
+                stopInhaler = false;
+                startWheel = true;
+                stopWheel = false;
+            }
 
-            robot.intake.setPower(powerMultiplier);
+            while (true) {
+                intakePower = this.robot.intake.getPower();
+                shooterPower = this.robot.shooter.getPower();
+                if (stopInhaler && stopWheel) { //checking the power of the motors
+                    robot.intake.setPower(0);//stop the motors
+                    robot.shooter.setPower(0);
+                    break;
+                }
+                if (startInhaler && startWheel) { //we have to keep setting the power as long as startInhaler is true
+                    robot.intake.setPower(powerMultiplier);
+                    robot.shooter.setPower(powerMultiplier);
+                }
+                telemetry.addData("Status", "Inhaling Ring");
+                telemetry.update();
+            }
         }
     }
+
     public void shootRing() {
+        boolean liftCollector = gamepad1.x;
+        boolean activateTrigger = gamepad1.b;
+        if (liftCollector) {
 
-    }
-    public void wobbleGoal() {
+            if (collectorUp) { //the collector has been lifted
+                collectordown = true;
+                collectorUp = false;
+            } else { //the collector has not been lifted
+                collectorUp = true;
+                collectordown = false;
 
-    }
+            }
+
+                if (collectordown) { //checking the power of the motors
+                    robot.intake.setPower(0);//stop the motors
+                    robot.shooter.setPower(0);
+
+                }
+                if (startInhaler && startWheel) { //we have to keep setting the power as long as startInhaler is true
+                    robot.intake.setPower(powerMultiplier);
+                    robot.shooter.setPower(powerMultiplier);
+                }
+
+
+            }
+        }
+
+
+
+            public void wobbleGoal () {
+                boolean wobbleClawOpen = gamepad1.dpad_left;
+                boolean wobbleClawClose = gamepad1.dpad_right;
+                boolean wobbleArmUp = gamepad1.dpad_up;
+                boolean wobbleArmDown = gamepad1.dpad_down;
+
+                MAX_POS = this.robot.wobbleClaw.MAX_POSITION;
+                MIN_POS = this.robot.wobbleClaw.MIN_POSITION;
+
+
+                if (!wobbleArmUp && !wobbleArmDown) {
+
+                    robot.wobbleArm.setPower(0);
+                }
+
+                if (wobbleArmUp) {
+                    robot.wobbleArm.setPower(powerMultiplier);
+                } else if (wobbleArmDown) {
+                    robot.wobbleArm.setPower(-powerMultiplier);
+                } else if (wobbleClawOpen) {
+                    telemetry.addData("Claw open", wobbleClawPositon);
+                    if (wobbleClawPositon <= MAX_POS) {
+                        wobbleClawPositon += CLAWINCREMENT;
+                    }
+                    robot.wobbleClaw.setPosition(wobbleClawPositon);
+                } else if (wobbleClawClose) {
+                    telemetry.addData("Claw close", wobbleClawPositon);
+                    if (wobbleClawPositon >= MIN_POS) {
+                        wobbleClawPositon -= CLAWINCREMENT;
+                        robot.wobbleClaw.setPosition(wobbleClawPositon);
+
+                    }
+
+                }
+            }
+
+
 }

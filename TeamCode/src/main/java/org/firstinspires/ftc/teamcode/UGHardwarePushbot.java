@@ -16,8 +16,14 @@ public class UGHardwarePushbot {
         public DcMotor  leftDrive2   = null;
         public DcMotor  rightDrive2  = null;
         public DcMotor intake = null;
-        public DcMotor collector = null;
+        public DcMotor wobbleArm = null;
         public DcMotor shooter = null;
+
+        public Servo wobbleClaw = null;
+        public Servo collector = null;
+        public Servo trigger = null;
+
+        //Distance sensor to be added
 
 
         /* local OpMode members. */
@@ -41,8 +47,13 @@ public class UGHardwarePushbot {
             rightDrive2 = hwMap.get(DcMotor.class, "right_drive2");
 
             intake = hwMap.get(DcMotor.class, "intake");
-            collector = hwMap.get(DcMotor.class, "collector");
+            wobbleArm = hwMap.get(DcMotor.class, "wobble_arm");
             shooter = hwMap.get(DcMotor.class,"shooter");
+
+            wobbleClaw = hwMap.get(Servo.class, "wobble_claw");
+            collector = hwMap.get(Servo.class, "collector");
+            trigger = hwMap.get(Servo.class, "trigger");
+
 
 
             leftDrive1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -51,7 +62,7 @@ public class UGHardwarePushbot {
             rightDrive2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
 
             intake.setDirection(DcMotor.Direction.FORWARD);
-            collector.setDirection(DcMotor.Direction.FORWARD);
+            wobbleArm.setDirection(DcMotor.Direction.FORWARD);
             shooter.setDirection(DcMotor.Direction.FORWARD);
 
             // Set all motors to zero power
@@ -61,7 +72,7 @@ public class UGHardwarePushbot {
             rightDrive2.setPower(0);
 
             intake.setPower(0);
-            collector.setPower(0);
+            wobbleArm.setPower(0);
             shooter.setPower(0);
 
             // Set all motors to run without encoders.
@@ -72,9 +83,12 @@ public class UGHardwarePushbot {
             rightDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            wobbleArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+            wobbleClaw.setDirection(Servo.Direction.FORWARD);
+            collector.setDirection(Servo.Direction.FORWARD);
+            trigger.setDirection(Servo.Direction.FORWARD);
 
         }
     }
