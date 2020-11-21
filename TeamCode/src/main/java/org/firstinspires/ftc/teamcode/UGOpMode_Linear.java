@@ -31,7 +31,7 @@ public class UGOpMode_Linear extends LinearOpMode {
 
 
     double powerMultiplier = 1.0; // 1.0
-    double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
+    double CLAWINCREMENT = 0.4; //may have to adjust, check before finalizing
     double COLLECTORINCREMENT = 1.0;
     double TRIGGERINCREMENT = 1.0;
     double ParkpowerMultiplier = .9;
@@ -64,7 +64,7 @@ public class UGOpMode_Linear extends LinearOpMode {
             // Setup a variable for each drive wheel to save power level for telemetry
 
             driveMacChasis();
-            collectRing();
+           collectRing();
             shootRing();
             wobbleGoal();
             telemetry.update();
@@ -220,8 +220,7 @@ public class UGOpMode_Linear extends LinearOpMode {
             }
 
                 if (collectordown) { //checking the power of the motors
-                    robot.intake.setPower(0);//stop the motors
-                    robot.shooter.setPower(0);
+                    robot.collector.setPosition(collectorPosition);//stop the motors
 
                 }
                 if (startInhaler && startWheel) { //we have to keep setting the power as long as startInhaler is true
@@ -238,23 +237,29 @@ public class UGOpMode_Linear extends LinearOpMode {
             public void wobbleGoal () {
                 boolean wobbleClawOpen = gamepad1.dpad_left;
                 boolean wobbleClawClose = gamepad1.dpad_right;
-                boolean wobbleArmUp = gamepad1.dpad_up;
-                boolean wobbleArmDown = gamepad1.dpad_down;
+                float wobbleArmUp = gamepad1.left_trigger;
+                float wobbleArmDown = gamepad1.right_trigger;
 
                 MAX_POS = this.robot.wobbleClaw.MAX_POSITION;
                 MIN_POS = this.robot.wobbleClaw.MIN_POSITION;
 
-
-                if (!wobbleArmUp && !wobbleArmDown) {
-
+                if (wobbleArmUp > 0.5) {
+                    robot.wobbleArm.setPower(powerMultiplier);
+                }
+                else if (wobbleArmUp == 0) {
                     robot.wobbleArm.setPower(0);
                 }
 
-                if (wobbleArmUp) {
-                    robot.wobbleArm.setPower(powerMultiplier);
-                } else if (wobbleArmDown) {
+                if (wobbleArmDown > 0.5) {
                     robot.wobbleArm.setPower(-powerMultiplier);
-                } else if (wobbleClawOpen) {
+                }
+                else if (wobbleArmDown == 0) {
+                    robot.wobbleArm.setPower(0);
+                }
+
+
+
+                 if (wobbleClawOpen) {
                     telemetry.addData("Claw open", wobbleClawPositon);
                     if (wobbleClawPositon <= MAX_POS) {
                         wobbleClawPositon += CLAWINCREMENT;

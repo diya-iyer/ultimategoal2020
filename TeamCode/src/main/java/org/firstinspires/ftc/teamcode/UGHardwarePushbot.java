@@ -21,7 +21,7 @@ public class UGHardwarePushbot {
 
         public Servo wobbleClaw = null;
         public Servo collector = null;
-        public Servo trigger = null;
+      public Servo trigger = null;
 
         //Distance sensor to be added
 
@@ -46,13 +46,13 @@ public class UGHardwarePushbot {
             leftDrive2  = hwMap.get(DcMotor.class, "left_drive2");
             rightDrive2 = hwMap.get(DcMotor.class, "right_drive2");
 
-            intake = hwMap.get(DcMotor.class, "intake");
+           intake = hwMap.get(DcMotor.class, "intake");
             wobbleArm = hwMap.get(DcMotor.class, "wobble_arm");
             shooter = hwMap.get(DcMotor.class,"shooter");
 
             wobbleClaw = hwMap.get(Servo.class, "wobble_claw");
-            collector = hwMap.get(Servo.class, "collector");
-            trigger = hwMap.get(Servo.class, "trigger");
+           collector = hwMap.get(Servo.class, "collector");
+           trigger = hwMap.get(Servo.class, "trigger");
 
 
 
@@ -61,9 +61,9 @@ public class UGHardwarePushbot {
             leftDrive2.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
             rightDrive2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
 
-            intake.setDirection(DcMotor.Direction.FORWARD);
+           intake.setDirection(DcMotor.Direction.FORWARD);
             wobbleArm.setDirection(DcMotor.Direction.FORWARD);
-            shooter.setDirection(DcMotor.Direction.FORWARD);
+           shooter.setDirection(DcMotor.Direction.FORWARD);
 
             // Set all motors to zero power
             leftDrive1.setPower(0);
@@ -71,9 +71,9 @@ public class UGHardwarePushbot {
             leftDrive2.setPower(0);
             rightDrive2.setPower(0);
 
-            intake.setPower(0);
+           intake.setPower(0);
             wobbleArm.setPower(0);
-            shooter.setPower(0);
+           shooter.setPower(0);
 
             // Set all motors to run without encoders.
             // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -82,13 +82,13 @@ public class UGHardwarePushbot {
             leftDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+           intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             wobbleArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+          shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             wobbleClaw.setDirection(Servo.Direction.FORWARD);
-            collector.setDirection(Servo.Direction.FORWARD);
-            trigger.setDirection(Servo.Direction.FORWARD);
+           collector.setDirection(Servo.Direction.FORWARD);
+           trigger.setDirection(Servo.Direction.FORWARD);
 
         }
     }
