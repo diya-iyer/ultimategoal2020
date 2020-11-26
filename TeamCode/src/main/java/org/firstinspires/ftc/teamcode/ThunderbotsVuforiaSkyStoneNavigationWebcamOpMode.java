@@ -87,8 +87,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 public class ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode extends LinearOpMode {
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
-    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private static final boolean PHONE_IS_PORTRAIT = false  ;
+    public static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+    public static final boolean PHONE_IS_PORTRAIT = false  ;
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -127,7 +127,7 @@ public class ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode extends LinearOpMo
     // Class Members
     private OpenGLMatrix lastLocation = null;
     private VuforiaLocalizer vuforia = null;
-    VuforiaTrackables targetsSkyStone;
+   public VuforiaTrackables targetsSkyStone;
 
     /**
      * This is the webcam we are to use. As with other hardware devices such as motors and
