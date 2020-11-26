@@ -28,6 +28,8 @@ public class UGOpMode_Linear extends LinearOpMode {
     boolean stopWheel = true;
     boolean collectorUp = false;
     boolean collectordown = true;
+    boolean triggerused = false;
+    boolean triggerback = true;
 
 
     double powerMultiplier = 1.0; // 1.0
@@ -211,26 +213,46 @@ public class UGOpMode_Linear extends LinearOpMode {
         if (liftCollector) {
 
             if (collectorUp) { //the collector has been lifted
-                collectordown = true;
-                collectorUp = false;
-            } else { //the collector has not been lifted
-                collectorUp = true;
-                collectordown = false;
+                    collectordown = true;
+                    collectorUp = false;
+                } else { //the collector has not been lifted
+                    collectorUp = true;
+                    collectordown = false;
 
-            }
+                }
 
                 if (collectordown) { //checking the power of the motors
                     robot.collector.setPosition(collectorPosition);//stop the motors
-
+            }
+            if (collectorUp) { //we have to keep setting the power as long as startInhaler is true
+                if (collectorPosition <= MAX_POS) {
+                    collectorPosition += COLLECTORINCREMENT;
                 }
-                if (startInhaler && startWheel) { //we have to keep setting the power as long as startInhaler is true
-                    robot.intake.setPower(powerMultiplier);
-                    robot.shooter.setPower(powerMultiplier);
-                }
+            }
 
+
+        }
+        if (activateTrigger) {
+
+            if (triggerused) { //the collector has been lifted
+                triggerback = true;
+                triggerused = false;
+            } else { //the collector has not been lifted
+                triggerused = true;
+                triggerback = false;
 
             }
+
+            if (triggerback) { //checking the power of the motors
+                robot.trigger.setPosition(triggerPosition);//stop the motors
+            }
+            if (triggerused) { //we have to keep setting the power as long as startInhaler is true
+                if (triggerPosition <= MAX_POS) {
+                    triggerPosition += TRIGGERINCREMENT;
+                }
+            }
         }
+    }
 
 
 
