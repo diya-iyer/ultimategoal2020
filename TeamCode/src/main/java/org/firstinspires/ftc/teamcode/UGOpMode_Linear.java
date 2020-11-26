@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="A: UGOpMode", group="Thunderbots")
-public class UGOpMode_Linear extends LinearOpMode {
+public class         UGOpMode_Linear extends LinearOpMode {
     UGHardwarePushbot robot = new UGHardwarePushbot();   // Use a Pushbot's hardware
     private ElapsedTime runtime = new ElapsedTime();
 

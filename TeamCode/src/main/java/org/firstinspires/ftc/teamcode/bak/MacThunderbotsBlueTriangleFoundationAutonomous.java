@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bak;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -33,6 +33,8 @@ import android.os.AsyncTask;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
 
 @Autonomous(name="Basic: Mecanum Thunderbots BlueTriangleFoundation Autonomous", group="Thunderbots")
 
