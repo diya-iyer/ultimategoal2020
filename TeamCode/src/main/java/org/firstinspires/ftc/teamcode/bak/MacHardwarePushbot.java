@@ -27,12 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bak;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
 
 /**
  * This is NOT an opmode.
@@ -49,28 +52,45 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:  Manipulator drive motor:  "left_arm"
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
- *
  */
-public class HardwarePushbot
+public class MacHardwarePushbot
 {
     /* Public OpMode members. */
-    public DcMotor  leftDrive   = null;
-    public DcMotor  rightDrive  = null;
-    public DcMotor  leftArm     = null;
-    public DcMotor  rightArm    = null;
+    //Macenum has 4 wheels each with a motor
+    public DcMotor  leftDrive1   = null;
+    public DcMotor  rightDrive1  = null;
+    public DcMotor  leftDrive2   = null;
+    public DcMotor  rightDrive2  = null;
+
+    //public DcMotor  leftArm     = null;
+    public DcMotor CenterRightArm = null;
+    public DcMotor  elbow       = null;
+    public DcMotor  CenterLeftArm     = null;
     public Servo    leftClaw    = null;
     public Servo    rightClaw   = null;
+    public Servo    capstone    = null;
+    public Servo    Wrist       = null;
+    public NormalizedColorSensor colorFront = null;
+    public NormalizedColorSensor colorBack = null;
+
+    //public Servo    foundationarm = null;
+    public DcMotor  tapemeasurer = null;
+
+    public Servo basepull1 = null;
+    public Servo basepull2 = null;
+
+    public Servo sideArm = null;   //SHASHANK USE FOR DEMO
 
     public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
+    public static final double ARM_UP_POWER    =  0.25 ;
+    public static final double ARM_DOWN_POWER  = -0.25 ;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public HardwarePushbot(){
+    public MacHardwarePushbot(){
 
     }
 
@@ -79,26 +99,51 @@ public class HardwarePushbot
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        // Define and Initialize Motors
-        leftDrive  = hwMap.get(DcMotor.class, "left_drive");
-        rightDrive = hwMap.get(DcMotor.class, "right_drive");
-        leftArm    = hwMap.get(DcMotor.class, "left_arm");
-        rightArm    =hwMap.get(DcMotor.class, "right_arm");
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        // Define and Initialize 4 Motors
+        leftDrive1  = hwMap.get(DcMotor.class, "left_drive1");
+        rightDrive1 = hwMap.get(DcMotor.class, "right_drive1");
+        leftDrive2  = hwMap.get(DcMotor.class, "left_drive2");
+        rightDrive2 = hwMap.get(DcMotor.class, "right_drive2");
+        CenterRightArm = hwMap.get(DcMotor.class, "CenterRightArm");
+        CenterLeftArm = hwMap.get(DcMotor.class, "CenterLeftArm");
+        rightClaw = hwMap.get(Servo.class, "right_claw");
+        elbow     = hwMap.get(DcMotor.class,"elbow");
+        basepull1 = hwMap.get(Servo.class, "base_pull1");
+        basepull2 = hwMap.get(Servo.class, "base_pull2");
+        sideArm = hwMap.get(Servo.class, "side_arm");
+        //  foundationarm = hwMap.get(Servo.class, "foundation_arm");
+        tapemeasurer = hwMap.get(DcMotor.class, "tape_measurer");
+        capstone = hwMap.get(Servo.class, "capstone");
+        Wrist = hwMap.get(Servo.class, "Wrist");
+        colorFront = hwMap.get(NormalizedColorSensor.class, "Color_Front");
+        colorBack = hwMap.get(NormalizedColorSensor.class, "Color_Back");
+
+
+        leftDrive1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        rightDrive1.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        leftDrive2.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        rightDrive2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-        leftArm.setPower(0);
-        rightArm.setPower(0);
+        leftDrive1.setPower(0);
+        rightDrive1.setPower(0);
+        leftDrive2.setPower(0);
+        rightDrive2.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+        /* No Arms included yet in Macenum robot
+        leftArm.setPower(0);
+        rightArm.setPower(0);
+        leftArm.se  tMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        */
 
         // Define and initialize ALL installed servos.
         //@Thunderbots commented on Oct 11 as servos not included yet
@@ -106,6 +151,12 @@ public class HardwarePushbot
        // rightClaw = hwMap.get(Servo.class, "right_hand");
        // leftClaw.setPosition(MID_SERVO);
        // rightClaw.setPosition(MID_SERVO);
+
+        basepull1.setDirection(Servo.Direction.FORWARD);
+        basepull2.setDirection(Servo.Direction.FORWARD);
+        Wrist.setDirection(Servo.Direction.FORWARD);
+        sideArm.setDirection(Servo.Direction.FORWARD);  //SHASHANK USE FOR DEMO
+
     }
  }
 

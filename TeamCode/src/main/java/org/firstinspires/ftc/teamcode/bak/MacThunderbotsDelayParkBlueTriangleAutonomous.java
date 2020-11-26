@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bak;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -34,23 +34,22 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
 
-@Autonomous(name="Basic: Mecanum Thunderbots DelayParkRedSquare Autonomous", group="Thunderbots")
+@Autonomous(name="Basic: Mecanum Thunderbots DelayParkBlueTriangle Autonomous", group="Thunderbots")
 
-public class MacThunderbotsDelayParkRedSquareAutonomous extends MacThunderbotsSquareAutonomous {
+public class MacThunderbotsDelayParkBlueTriangleAutonomous extends MacThunderbotsSquareAutonomous {
 
+    @Override
     public void runOpMode() {
 
-
-         /* Initialize the drive system variables.
-=======
         /*
          * Initialize the drive system variables.
->>>>>>> 6235cb25df2c16e128749ce502524b9a1b67d0a3
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
         //initSkystoneCamera();
+
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Init done");    //
         telemetry.update();
@@ -75,7 +74,7 @@ public class MacThunderbotsDelayParkRedSquareAutonomous extends MacThunderbotsSq
         waitForStart();
         sleep(20000);
         parkunderbridge();
-        // Step through each leg of the pathp,
+        // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         //encoderDrive(DRIVE_SPEED,  -3,   -3, 2.0);  // S1: Forward 3 Inches with 2 Sec timeout
         //TO DO: Step 2 Move arm to collect skystone
@@ -112,5 +111,4 @@ public class MacThunderbotsDelayParkRedSquareAutonomous extends MacThunderbotsSq
         //robot.rightDrive2.setPower(-powerMultiplier);
 
     }
-
 }

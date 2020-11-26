@@ -1,10 +1,38 @@
-package org.firstinspires.ftc.teamcode;
+/* Copyright (c) 2017 FIRST. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided that
+ * the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
+ * of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ *
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.firstinspires.ftc.teamcode.bak;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.teamcode.bak.MacHardwarePushbot;
 
 
 /**
@@ -22,9 +50,9 @@ import com.qualcomm.robotcore.util.Range;
  * name="Basic: Linear OpMode"  changed to name="Basic: Thunderbots OpMode"
  */
 
-//@TeleOp(name="Basic: GrapeBot Thunderbots Linear Op", group="Thunderbots")
-public class GrapeBotOpMode_Linear extends LinearOpMode{
+//@TeleOp(name="Basic: Mecanum Thunderbots TeleOp1", group="Thunderbots")
 
+public class MacThuderbotsOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members.
     MacHardwarePushbot robot = new MacHardwarePushbot();   // Use a Pushbot's hardware
@@ -34,6 +62,12 @@ public class GrapeBotOpMode_Linear extends LinearOpMode{
     double rightForwardPower;
     double leftBackwardPower;
     double rightBackwardPower;
+    final double CLAWINCREMENT = 0.2;
+
+    final double BASEPULL = 0.5;
+    double basepullposition = 0;
+    double MAX_POS = 3.0;     // Maximum rotational position
+    double MIN_POS = 0.0;     // Minimum rotational position
 
 
     double powerMultiplier =0.5;
@@ -64,6 +98,7 @@ public class GrapeBotOpMode_Linear extends LinearOpMode{
             // Setup a variable for each drive wheel to save power level for telemetry
 
             driveMacChasis();
+            pickUpBrick();
             powerChange();
             telemetry.update();
 
@@ -167,21 +202,79 @@ public class GrapeBotOpMode_Linear extends LinearOpMode{
 
     }
 
+    public void pickUpBrick() {
+        boolean drivePickDown = gamepad2.dpad_down;
+        boolean drivePickUp = gamepad2.dpad_up;
+        boolean clawopen = gamepad2.dpad_right;
+        boolean clawclose = gamepad2.dpad_left;
+        double clawposition = robot.rightClaw.getPosition();
+        boolean upbasepull = gamepad2.y;
+        boolean downbasepull = gamepad2.a;
+        MAX_POS = this.robot.rightClaw.MAX_POSITION;
+        MIN_POS = this.robot.rightClaw.MIN_POSITION;
+
+        boolean driveStop = false;
+        double powerMultiplier = 0.3;
+
+        if (!drivePickDown && !drivePickUp) {
+            driveStop = true;
+            robot.CenterRightArm.setPower(0);
+        }
+
+        if (drivePickUp) {
+            robot.CenterRightArm.setPower(-powerMultiplier);
+        } else if (drivePickDown) {
+            robot.CenterRightArm.setPower(powerMultiplier);
+
+        } else if (clawopen) {
+            telemetry.addData("Claw open", clawposition);
+            if (clawposition <= MAX_POS) {
+                clawposition += CLAWINCREMENT;
+            }
+            robot.rightClaw.setPosition(clawposition);
+        } else if (clawclose) {
+            telemetry.addData("Claw close", clawposition);
+            if (clawposition >= MIN_POS) {
+                clawposition -= CLAWINCREMENT;
+            }
+            robot.rightClaw.setPosition(clawposition);
+
+        }
+        else if (upbasepull) {
+
+            basepullposition += BASEPULL;
+            if (basepullposition >= MAX_POS) {
+                basepullposition = MAX_POS;
+            }
+            robot.basepull1.setPosition(basepullposition);
+        }
+        else if (downbasepull) {
+
+                basepullposition -= BASEPULL;
+                if (basepullposition <= MIN_POS) {
+                    basepullposition = MIN_POS;
+                }
+                robot.basepull1.setPosition(basepullposition);
+
+        }
+        telemetry.addData("Arms & Claw", "left (%.2f), right (%.2f)", robot.CenterRightArm.getPower(), robot.rightClaw.getPosition());
+        telemetry.addData(" Base Pull", "left (%.2f)", robot.basepull1.getPosition());
+    }
     public void powerChange(){
 
-        boolean powerDown = gamepad1.dpad_down ;
-        boolean powerUp = gamepad1.dpad_up ;
+            boolean powerDown = gamepad1.dpad_down ;
+            boolean powerUp = gamepad1.dpad_up ;
 
 
-        if (powerMultiplier<MAX_POWER && powerUp) {
-            powerMultiplier=powerMultiplier+POWER_INCREMENT;
-        }
-        else if (powerMultiplier>0 && powerDown) {
-            powerMultiplier=powerMultiplier-POWER_INCREMENT;
-        }
+            if (powerMultiplier<MAX_POWER && powerUp) {
+                powerMultiplier=powerMultiplier+POWER_INCREMENT;
+            }
+            else if (powerMultiplier>0 && powerDown) {
+                powerMultiplier=powerMultiplier-POWER_INCREMENT;
+            }
 
 
-        telemetry.addData("Power Multiplier", "left (%.2f)", powerMultiplier);
+            telemetry.addData("Power Multiplier", "left (%.2f)", powerMultiplier);
 
 
     }
