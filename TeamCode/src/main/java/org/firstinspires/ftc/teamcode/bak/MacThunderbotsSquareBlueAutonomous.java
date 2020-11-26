@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bak;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -34,9 +34,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Basic: Mecanum Thunderbots TriangleRed Autonomous", group="Thunderbots")
+import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
 
-public class MacThunderbotsTriangleRedAutonomous extends MacThunderbotsSquareAutonomous {
+@Autonomous(name="Basic: Mecanum Thunderbots SquareBlue Autonomous", group="Thunderbots")
+
+public class MacThunderbotsSquareBlueAutonomous extends MacThunderbotsSquareAutonomous {
 
     @Override
     public void runOpMode() {

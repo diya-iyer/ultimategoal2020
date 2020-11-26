@@ -27,11 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bak;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.HardwarePushbot;
+import org.firstinspires.ftc.teamcode.ThunderbotsUtil;
+import org.firstinspires.ftc.teamcode.ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode;
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -61,76 +65,83 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * @Disabled
  */
 
-//@Autonomous(name="Basic: Mecanum Thunderbots Camera Autonomous", group="Thunderbots")
+//@Autonomous(name="Basic: Thunderbots AutoMode", group="Thunderbots")
 
-public class MacThunderbotsPushbotAutonomousDrive extends ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode {
+public class MyThunderbotsPushbotAutoDriveByEncoder_Linear extends ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode {
+
+
 
     /* Declare OpMode members. */
-    MacHardwarePushbot robot = new MacHardwarePushbot();   // Use a Pushbot's hardware
-    private ElapsedTime runtime = new ElapsedTime();
+    HardwarePushbot robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+    private ElapsedTime     runtime = new ElapsedTime();
 
-    static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder
-    static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
-    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.6;
-    static final double TURN_SPEED = 0.5;
-    static final double ARM_SPEED = 0.3;
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 3.5 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     DRIVE_SPEED             = 0.6;
+    static final double     TURN_SPEED              = 0.5;
+    static final double     ARM_SPEED               = 0.3;
 
     @Override
     public void runOpMode() {
 
         /*
-         * Initialize the drive system variables.
+         * Initialize the drive system variables
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        //initSkystoneCamera();
-
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Init done");    //
+        telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
 
-        robot.leftDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        robot.leftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //initialized the camera
+        initSkystoneCamera();
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Path0", "Starting at %7d :%7d",
-                robot.leftDrive1.getCurrentPosition(),
-                robot.rightDrive1.getCurrentPosition());
+        telemetry.addData("Path0",  "Starting at %7d :%7d",
+                          robot.leftDrive.getCurrentPosition(),
+                          robot.rightDrive.getCurrentPosition());
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
+        targetsSkyStone.activate();
+        
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        //encoderDrive(DRIVE_SPEED,  -3,   -3, 2.0);  // S1: Forward 3 Inches with 2 Sec timeout
-        //TO DO: Step 2 Move arm to collect skystone
-        // encoderDrive(TURN_SPEED,   1, -1, 2.0);  // S3: Turn Right 12 Inches with 4 Sec timeout
-
-        //String imageDetectedName=this.detectSksytoneImage();
-        //telemetry.addData("Image", imageDetectedName);
-
-        //we're going to move until we find the skystone image
-        this.keepMovingUntilSkystone();
-        this.pickupBrick();
-        this.keepMovingUntilFoundation();
-        this.dropBrickOnFoundation();
-
+        encoderDrive(DRIVE_SPEED,  -24,   -24, 3.0);  // S1: Forward 3 Inches with 2 Sec timeout
+        //ARM DOWN
+        encoderDrive(DRIVE_SPEED, 14, 14, 2.0);
+        double turnInches = ThunderbotsUtil.ConvertDegreesToInches(3.5, 90);
+        encoderDrive(TURN_SPEED, turnInches, -turnInches, 2.0);  // S3: Turn Right 12 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, -46, -46, 5.0);
+        encoderDrive(TURN_SPEED, turnInches, -turnInches, 2.0);
+        //ARM UP
+        double turnInches45 = ThunderbotsUtil.ConvertDegreesToInches(3.5, 45);
+        encoderDrive(TURN_SPEED, turnInches45, -turnInches45, 1.0);
+        encoderDrive(DRIVE_SPEED, -16, -16,2.0);
+        //ARM DOWN
+        double turnInchesn75 = ThunderbotsUtil.ConvertDegreesToInches(3.5, -75);
+        encoderDrive(TURN_SPEED, turnInchesn75, -turnInchesn75, 1.5);
+        encoderDrive(DRIVE_SPEED, -10, -10, 2.0);
+        //ARM UP
+        encoderDrive(DRIVE_SPEED, 4, 4,2.0);
+        //ARM DOW
+        encoderDrive(DRIVE_SPEED, 18, 18, 3.0);
 
 
         /*robot.leftClaw.setPosition(1.0);            // S4: Stop and close the claw.
         robot.rightClaw.setPosition(0.0); */
-        //sleep(1000);     // pause for servos to move
+        sleep(1000);     // pause for servos to move
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -147,37 +158,28 @@ public class MacThunderbotsPushbotAutonomousDrive extends ThunderbotsVuforiaSkyS
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
-        int newLeftTarget1;
-        int newRightTarget1;
-        int newLeftTarget2;
-        int newRightTarget2;
+        int newLeftTarget;
+        int newRightTarget;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget1 = robot.leftDrive1.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newRightTarget1 = robot.rightDrive1.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-            newLeftTarget2 = robot.leftDrive2.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newRightTarget2 = robot.rightDrive2.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-
-            robot.leftDrive1.setTargetPosition(newLeftTarget1);
-            robot.rightDrive1.setTargetPosition(newRightTarget1);
-            robot.leftDrive2.setTargetPosition(newLeftTarget2);
-            robot.rightDrive2.setTargetPosition(newRightTarget2);
+            /* newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH); */
+            newLeftTarget = robot.leftDrive.getCurrentPosition() + (int) (ThunderbotsUtil.ConvertDegreesToInches(3.5, 360) * leftInches);
+            newRightTarget = robot.rightDrive.getCurrentPosition() + (int) (ThunderbotsUtil.ConvertDegreesToInches(3.5, 360) * rightInches);
+            robot.leftDrive.setTargetPosition(newLeftTarget);
+            robot.rightDrive.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.leftDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.leftDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.leftDrive1.setPower(Math.abs(speed));
-            robot.rightDrive1.setPower(Math.abs(speed));
-            robot.leftDrive2.setPower(Math.abs(speed));
-            robot.rightDrive2.setPower(Math.abs(speed));
+            robot.leftDrive.setPower(Math.abs(speed));
+            robot.rightDrive.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -186,66 +188,26 @@ public class MacThunderbotsPushbotAutonomousDrive extends ThunderbotsVuforiaSkyS
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (robot.leftDrive1.isBusy() && robot.rightDrive1.isBusy())) {
+                   (runtime.seconds() < timeoutS) &&
+                   (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget1, newRightTarget1);
-                telemetry.addData("Path2", "Running at %7d :%7d",
-                        robot.leftDrive1.getCurrentPosition(),
-                        robot.rightDrive1.getCurrentPosition());
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+                telemetry.addData("Path2",  "Running at %7d :%7d",
+                                            robot.leftDrive.getCurrentPosition(),
+                                            robot.rightDrive.getCurrentPosition());
                 telemetry.update();
             }
 
             // Stop all motion;
-            robot.leftDrive1.setPower(0);
-            robot.rightDrive1.setPower(0);
-            robot.leftDrive2.setPower(0);
-            robot.rightDrive2.setPower(0);
+            robot.leftDrive.setPower(0);
+            robot.rightDrive.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            robot.leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+            robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }
     }
-
-
-    public void keepMovingUntilSkystone() {
-        String imagedetected = null;
-        imagedetected = this.detectSksytoneImage();
-        while (!imagedetected.equals("Stone Target")) {
-            encoderDrive(DRIVE_SPEED, -3, -3, 2.0);  // S1: Forward 3 Inches with 2 Sec timeout
-
-        }
-    }
-
-    public void pickupBrick() {
-
-    }
-
-
-
-    public void keepMovingUntilFoundation(){
-        String imagedetected = null;
-        imagedetected = this.detectSksytoneImage();
-        while (!imagedetected.equals("Rear Perimeter")) {
-            encoderDrive(DRIVE_SPEED, -3, -3, 2.0);  // S1: Forward
-        }
-
-    }
-
-    public void dropBrickOnFoundation() {
-
-
-    }
-
-
-
-
 }
-

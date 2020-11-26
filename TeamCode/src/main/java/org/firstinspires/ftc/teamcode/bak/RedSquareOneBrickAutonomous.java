@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bak;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,20 +32,25 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name="Basic: Mecanum Thunderbots StraightDelayParkBlueTriangle Autonomous", group="Thunderbots")
+import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
 
-public class StraightDelayMacThunderbotsParkBlueTriangleAutonomous extends MacThunderbotsSquareAutonomous {
+@Autonomous(name="Basic: Mecanum Thunderbots RedSquareOneBrick Autonomous", group="Thunderbots")
+
+public class RedSquareOneBrickAutonomous extends MacThunderbotsSquareAutonomous {
 
     @Override
     public void runOpMode() {
 
+
+         /* Initialize the drive system variables.
+=======
         /*
          * Initialize the drive system variables.
+>>>>>>> 6235cb25df2c16e128749ce502524b9a1b67d0a3
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
         //initSkystoneCamera();
-
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Init done");    //
         telemetry.update();
@@ -61,15 +66,100 @@ public class StraightDelayMacThunderbotsParkBlueTriangleAutonomous extends MacTh
 
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Path0", "Starting at %7d :%7d",
+        telemetry.addData("SssssPath0", "Starting at %7d :%7d",
                 robot.leftDrive1.getCurrentPosition(),
                 robot.rightDrive1.getCurrentPosition());
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        sleep(20000);
-        parkunderbridge();
+        sleep(300);
+        deliverbrick();
+
+        /* telemetry.addData("sideArm pos", String.valueOf(robot.sideArm.getPosition()));
+        telemetry.update();
+        // sleep(5000);
+        robot.sideArm.setPosition(0.5);
+        robot.basepull1.setPosition(0.5);
+
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        encoderDrive(DRIVE_SPEED, 64, 64, 1.5); */
+    }
+
+      /*  telemetry.addData("Status", "Side_Arm");
+        double sideArmposition = this.robot.sideArm.MAX_POSITION -.5;
+        robot.rightClaw.setPosition(sideArmposition);
+*/
+        public void deliverbrick() {
+
+            telemetry.addData("sideArm pos", String.valueOf(robot.sideArm.getPosition()));
+            telemetry.update();
+            // sleep(5000);
+            robot.sideArm.setPosition(0.5);
+            robot.basepull1.setPosition(0.5);
+
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            encoderDrive(DRIVE_SPEED, 64, 64, 1.5);
+            //add foundation arm dropping and holding onto foundation code
+            sleep (2000);
+
+            telemetry.addData("Status", "side_arm is here");
+            telemetry.update();
+            double sideArmposition1 = this.robot.sideArm.MAX_POSITION-1.0;
+            robot.sideArm.setPosition(sideArmposition1);
+            sleep(1000);
+            telemetry.addData("Status", "done");
+            telemetry.update();
+            sleep (1000);
+
+            double powerMultiplier = 0.5;
+
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            encoderDrive(DRIVE_SPEED, 64, 64, 1.2);
+
+
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            encoderDrive(DRIVE_SPEED, 64, 64, 1.5);
+
+            sleep (2000);
+
+            telemetry.addData("Status", "side_arm is here");
+            telemetry.update();
+            sideArmposition1 = this.robot.sideArm.MAX_POSITION;
+            robot.sideArm.setPosition(sideArmposition1);
+            sleep(1000);
+            telemetry.addData("Status", "done");
+            telemetry.update();
+            sleep (1000);
+
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            encoderDrive(DRIVE_SPEED, 64, 64, 0.4);
+
+
+        }
+
+
+
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         //encoderDrive(DRIVE_SPEED,  -3,   -3, 2.0);  // S1: Forward 3 Inches with 2 Sec timeout
@@ -79,26 +169,22 @@ public class StraightDelayMacThunderbotsParkBlueTriangleAutonomous extends MacTh
         //String imageDetectedName=this.detectSksytoneImage();
         //telemetry.addData("Image", imageDetectedName);
 
-    }
 
-    public void parkunderbridge() {
+
+    /* public void parkunderbridge() {
 
         double powerMultiplier = 0.5;
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        encoderDrive(DRIVE_SPEED, 24, 24, 0.5);
+        encoderDrive(DRIVE_SPEED, 64, 64, 1.5); */
 
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        encoderDrive(DRIVE_SPEED, 64, 64, 1.5);
 
         //sideways must be quadrupled due to strafing needing more rotations
         //robot.leftDrive1.setPower(-powerMultiplier);
@@ -107,4 +193,3 @@ public class StraightDelayMacThunderbotsParkBlueTriangleAutonomous extends MacTh
         //robot.rightDrive2.setPower(-powerMultiplier);
 
     }
-}

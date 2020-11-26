@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bak;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -34,22 +34,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//@Autonomous(name="Basic: Mecanum Thunderbots BluePullBAD Foundation", group="Thunderbots")
+import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
 
-public class MacThunderbotsTriangleBlueFoundationPullBAD extends LinearOpMode {
+@Autonomous(name="Basic: Mecanum Thunderbots TriangleRed Autonomous", group="Thunderbots")
 
-    /* Declare OpMode members. */
-    MacHardwarePushbot robot = new MacHardwarePushbot();   // Use a Pushbot's hardware
-    private ElapsedTime runtime = new ElapsedTime();
-
-    static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder
-    static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
-    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.6;
-    static final double TURN_SPEED = 0.5;
-    static final double ARM_SPEED = 0.3;
+public class MacThunderbotsTriangleRedAutonomous extends MacThunderbotsSquareAutonomous {
 
     @Override
     public void runOpMode() {
@@ -109,83 +98,6 @@ public class MacThunderbotsTriangleBlueFoundationPullBAD extends LinearOpMode {
         telemetry.update();
     }
 
-    /*
-     *  Method to perform a relative move, based on encoder counts.
-     *  Encoders are not reset as the move is based on the current position.
-     *  Move will stop if any of three conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Move runs out of time
-     *  3) Driver stops the opmode running.
-     */
-    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
-        int newLeftTarget1;
-        int newRightTarget1;
-        int newLeftTarget2;
-        int newRightTarget2;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            newLeftTarget1 = robot.leftDrive1.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newRightTarget1 = robot.rightDrive1.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-            newLeftTarget2 = robot.leftDrive2.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newRightTarget2 = robot.rightDrive2.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-
-            robot.leftDrive1.setTargetPosition(newLeftTarget1);
-            robot.rightDrive1.setTargetPosition(newRightTarget1);
-            robot.leftDrive2.setTargetPosition(newLeftTarget2);
-            robot.rightDrive2.setTargetPosition(newRightTarget2);
-
-            // Turn On RUN_TO_POSITION
-            robot.leftDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.leftDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // reset the timeout time and start motion.
-            runtime.reset();
-            robot.leftDrive1.setPower(Math.abs(speed));
-            robot.rightDrive1.setPower(Math.abs(speed));
-            robot.leftDrive2.setPower(Math.abs(speed));
-            robot.rightDrive2.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (robot.leftDrive1.isBusy() && robot.rightDrive1.isBusy())) {
-
-                // Display it for the driver.
-                telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget1, newRightTarget1);
-                telemetry.addData("Path2", "Running at %7d :%7d",
-                        robot.leftDrive1.getCurrentPosition(),
-                        robot.rightDrive1.getCurrentPosition());
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            robot.leftDrive1.setPower(0);
-            robot.rightDrive1.setPower(0);
-            robot.leftDrive2.setPower(0);
-            robot.rightDrive2.setPower(0);
-
-            // Turn off RUN_TO_POSITION
-            robot.leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-            //  sleep(250);   // optional pause after each move
-        }
-    }
 
 
     public void crossSkybridge() {
@@ -239,18 +151,18 @@ public class MacThunderbotsTriangleBlueFoundationPullBAD extends LinearOpMode {
 
     public void turnandlatchontofoundatiion () {
 
-        double powerMultiplier = 0.5;
+            double powerMultiplier = 0.5;
 
 
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive1.setPower(powerMultiplier);
-        robot.rightDrive1.setPower(0);
-        robot.leftDrive2.setPower(0);
-        robot.rightDrive2.setPower(0);
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive1.setPower(powerMultiplier);
+            robot.rightDrive1.setPower(0);
+            robot.leftDrive2.setPower(0);
+            robot.rightDrive2.setPower(0);
 
 
 
@@ -260,17 +172,17 @@ public class MacThunderbotsTriangleBlueFoundationPullBAD extends LinearOpMode {
     }
     public void grabFoundationandstrafeleft() {
 
-        double powerMultiplier = 0.5;
+            double powerMultiplier = 0.5;
 
-        //encoderDrive(DRIVE_SPEED, 24, 24, 0.5);
+            //encoderDrive(DRIVE_SPEED, 24, 24, 0.5);
 
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        encoderDrive(DRIVE_SPEED, 48, 48, 1.5);
+            encoderDrive(DRIVE_SPEED, 48, 48, 1.5);
 
 
     }
