@@ -28,8 +28,6 @@ package org.firstinspires.ftc.teamcode.bak;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -38,11 +36,11 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
+import org.firstinspires.ftc.teamcode.ThunderbotsSquareAutonomous;
 
 @Autonomous(name="A: Mecanum Thunderbots RedSquareOneSkystone Autonomous", group="Thunderbots")
 
-public class RedSquareOneSkystoneAutonomous extends MacThunderbotsSquareAutonomous {
+public class RedSquareOneSkystoneAutonomous extends ThunderbotsSquareAutonomous {
 
     private NormalizedColorSensor colorSensor = null;
     private NormalizedRGBA colors = null;

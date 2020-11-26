@@ -32,22 +32,25 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
+import org.firstinspires.ftc.teamcode.ThunderbotsSquareAutonomous;
 
-@Autonomous(name="Basic: Mecanum Thunderbots StraightDelayParkBlueTriangle Autonomous", group="Thunderbots")
 
-public class StraightDelayMacThunderbotsParkBlueTriangleAutonomous extends MacThunderbotsSquareAutonomous {
+@Autonomous(name="Basic: Mecanum Thunderbots DelayParkRedSquare Autonomous", group="Thunderbots")
 
-    @Override
+public class ThunderbotsDelayParkRedSquareAutonomous extends ThunderbotsSquareAutonomous {
+
     public void runOpMode() {
 
+
+         /* Initialize the drive system variables.
+=======
         /*
          * Initialize the drive system variables.
+>>>>>>> 6235cb25df2c16e128749ce502524b9a1b67d0a3
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
         //initSkystoneCamera();
-
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Init done");    //
         telemetry.update();
@@ -72,7 +75,7 @@ public class StraightDelayMacThunderbotsParkBlueTriangleAutonomous extends MacTh
         waitForStart();
         sleep(20000);
         parkunderbridge();
-        // Step through each leg of the path,
+        // Step through each leg of the pathp,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         //encoderDrive(DRIVE_SPEED,  -3,   -3, 2.0);  // S1: Forward 3 Inches with 2 Sec timeout
         //TO DO: Step 2 Move arm to collect skystone
@@ -109,4 +112,5 @@ public class StraightDelayMacThunderbotsParkBlueTriangleAutonomous extends MacTh
         //robot.rightDrive2.setPower(-powerMultiplier);
 
     }
+
 }

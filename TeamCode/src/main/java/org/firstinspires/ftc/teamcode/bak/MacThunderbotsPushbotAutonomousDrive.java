@@ -66,7 +66,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MacThunderbotsPushbotAutonomousDrive extends ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode {
 
     /* Declare OpMode members. */
-    MacHardwarePushbot robot = new MacHardwarePushbot();   // Use a Pushbot's hardware
+    UGHardwarePushbot robot = new UGHardwarePushbot();   // Use a Pushbot's hardware
     private ElapsedTime runtime = new ElapsedTime();
 
     static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder

@@ -32,11 +32,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
+import org.firstinspires.ftc.teamcode.ThunderbotsSquareAutonomous;
 
 @Autonomous(name="Basic: Mecanum Thunderbots BlueSquareOneBrick Autonomous", group="Thunderbots")
 
-public class BlueSquareOneBrickAutonomous extends MacThunderbotsSquareAutonomous {
+public class BlueSquareOneBrickAutonomous extends ThunderbotsSquareAutonomous {
 
     @Override
     public void runOpMode() {

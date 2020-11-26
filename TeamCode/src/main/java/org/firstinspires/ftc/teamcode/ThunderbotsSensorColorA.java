@@ -53,7 +53,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
  */
 //@TeleOp(name = "Sensor: Color", group = "Sensor")
 @Disabled
-public class MacThunderbotsSensorColorA extends LinearOpMode {
+public class ThunderbotsSensorColorA extends LinearOpMode {
 
   /** The colorSensor field will contain a reference to our color sensor hardware object */
   NormalizedColorSensor colorSensor;
