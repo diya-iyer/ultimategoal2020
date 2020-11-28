@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="Target Line Park", group="Thunderbots")
-public class WobbleGoalA extends MacThunderbotsSquareAutonomous{
+public class WobbleGoalA extends ThunderbotsSquareAutonomous{
     UGHardwarePushbot robot = new UGHardwarePushbot();
     @Override
     public void runOpMode() {
