@@ -32,11 +32,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
+import org.firstinspires.ftc.teamcode.ThunderbotsSquareAutonomous;
 
-@Autonomous(name="Basic: Mecanum Thunderbots StraightDelayParkBlueSquareF Autonomous", group="Thunderbots")
+@Autonomous(name="Basic: Mecanum Thunderbots DelayParkBlueSquareF Autonomous", group="Thunderbots")
 
-public class StraightDelayMacThunderbotsDelayParkBlueSquareAutonomous extends MacThunderbotsSquareAutonomous {
+public class ThunderbotsDelayParkBlueSquareAutonomous extends ThunderbotsSquareAutonomous {
 
     @Override
     public void runOpMode() {
@@ -51,7 +51,6 @@ public class StraightDelayMacThunderbotsDelayParkBlueSquareAutonomous extends Ma
          */
         robot.init(hardwareMap);
         //initSkystoneCamera();
-        sleep(20000);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Init done");    //
         telemetry.update();
@@ -74,7 +73,7 @@ public class StraightDelayMacThunderbotsDelayParkBlueSquareAutonomous extends Ma
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        //sleep(20000);
+        sleep(20000);
         parkunderbridge();
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
@@ -96,7 +95,7 @@ public class StraightDelayMacThunderbotsDelayParkBlueSquareAutonomous extends Ma
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        encoderDrive(DRIVE_SPEED, 4, 4, .5);
+        encoderDrive(DRIVE_SPEED, 24, 24, 0.5);
 
 
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);

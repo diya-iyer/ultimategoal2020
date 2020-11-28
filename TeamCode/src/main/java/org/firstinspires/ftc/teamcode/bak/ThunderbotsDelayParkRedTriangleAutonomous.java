@@ -28,31 +28,26 @@ package org.firstinspires.ftc.teamcode.bak;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import android.os.AsyncTask;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.MacThunderbotsSquareAutonomous;
+import org.firstinspires.ftc.teamcode.ThunderbotsSquareAutonomous;
 
-@Autonomous(name="Basic: Mecanum Thunderbots BlueTriangleFoundation Autonomous", group="Thunderbots")
+@Autonomous(name="Basic: Mecanum Thunderbots DelayParkRedTriangle Autonomous", group="Thunderbots")
 
-public class MacThunderbotsBlueTriangleFoundationAutonomous extends MacThunderbotsSquareAutonomous {
+public class ThunderbotsDelayParkRedTriangleAutonomous extends ThunderbotsSquareAutonomous {
 
     @Override
     public void runOpMode() {
 
-
-         /* Initialize the drive system variables.
-=======
         /*
          * Initialize the drive system variables.
->>>>>>> 6235cb25df2c16e128749ce502524b9a1b67d0a3
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
         //initSkystoneCamera();
+
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Init done");    //
         telemetry.update();
@@ -61,12 +56,10 @@ public class MacThunderbotsBlueTriangleFoundationAutonomous extends MacThunderbo
         robot.rightDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         // Send telemetry message to indicate successful Encoder reset
@@ -77,7 +70,7 @@ public class MacThunderbotsBlueTriangleFoundationAutonomous extends MacThunderbo
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        movefoundation();
+
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         //encoderDrive(DRIVE_SPEED,  -3,   -3, 2.0);  // S1: Forward 3 Inches with 2 Sec timeout
@@ -87,86 +80,110 @@ public class MacThunderbotsBlueTriangleFoundationAutonomous extends MacThunderbo
         //String imageDetectedName=this.detectSksytoneImage();
         //telemetry.addData("Image", imageDetectedName);
 
+
+        this.crossSkybridge();
+        //pull bases
+        robot.CenterRightArm.setPower(1.0);
+        encoderDrive(DRIVE_SPEED, -24, -24, 0.5);
+
+
+
+        /*robot.leftClaw.setPosition(1.0);            // S4: Stop and close the claw.
+        robot.rightClaw.setPosition(0.0); */
+        //sleep(1000);     // pause for servos to move
+
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
     }
 
-    public void movefoundation() {
-
-        double powerMultiplier = 0.1;
-
-        //move to foundation
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        encoderDrive(DRIVE_SPEED, 25, 25, 0.8);
-
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        encoderDrive(DRIVE_SPEED, 25, 25, 0.8);
-
-        //add foundation arm dropping and holding onto foundation code
-        telemetry.addData("Status", "FoundationArmDown");
-        double basepullposition = this.robot.capstone.MIN_POSITION+1.5;
-        robot.basepull1.setPosition(basepullposition);
-        basepullposition = this.robot.capstone.MAX_POSITION-1.5;
-        robot.basepull2.setPosition(basepullposition);
-
-      /*  telemetry.addData("Status", "ElbowDown");
-        robot.elbow.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        encoderDrive(DRIVE_SPEED, 20,20,0.5);
-
-        telemetry.addData("Status", "Pinch");
-        double clawposition = this.robot.rightClaw.MIN_POSITION+1.5;
-        robot.rightClaw.setPosition(clawposition); */
 
 
+    public void crossSkybridge() {
 
-        //sleep so servos have time to initialize
-        sleep(3000);
+        double powerMultiplier=0.5;
 
-        //strafe  back
+        encoderDrive(DRIVE_SPEED, 24, 24, 0.5);
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        encoderDrive(DRIVE_SPEED, 25, 25, 1.3);
 
-        telemetry.addData("Status", "FoundationArmUp");
-        basepullposition = this.robot.capstone.MAX_POSITION-1.5;
-        robot.basepull1.setPosition(basepullposition);
-        basepullposition = this.robot.capstone.MIN_POSITION+1.5;
-        robot.basepull2.setPosition(basepullposition);
-
-       /* telemetry.addData("Status", "ElbowUp");
-        robot.elbow.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        encoderDrive(DRIVE_SPEED, 20,20,0.5);
-
-        telemetry.addData("Status", "PinchUp");
-        clawposition = this.robot.rightClaw.MIN_POSITION-1.5;
-        robot.rightClaw.setPosition(clawposition); */
-
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(DRIVE_SPEED, 25, 25, 0.1);
 
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(DRIVE_SPEED, 25, 25, 2.5);
+
+        encoderDrive(DRIVE_SPEED,  96,96,  1.5);
+        encoderDrive(DRIVE_SPEED,  96,96,  1.5);
+
+        //sideways must be quadrupled due to strafing needing more rotations
+        //robot.leftDrive1.setPower(-powerMultiplier);
+        //robot.rightDrive1.setPower(powerMultiplier);
+        //robot.leftDrive2.setPower(powerMultiplier);
+        //robot.rightDrive2.setPower(-powerMultiplier);
+
+    }
+    public void grabFoundationWithAutonomous() {
+        /*boolean drivePickDown = gamepad1.dpad_down ;
+        boolean drivePickUp = gamepad1.dpad_up ;
+        boolean clawopen= gamepad1.dpad_right ;
+        boolean clawclose = gamepad1.dpad_left ;*/
+
+        double clawposition = robot.rightClaw.getPosition();
+        double MAX_POS = this.robot.rightClaw.MAX_POSITION;
+        double MIN_POS = this.robot.rightClaw.MIN_POSITION;
+        double CLAW_INCREMENT = 0.6;
+        //claw open & then claw close
+
+        telemetry.addData("Claw open", clawposition);
+        if (clawposition <= MAX_POS) {
+            clawposition += CLAW_INCREMENT;
+        }
+        robot.rightClaw.setPosition(clawposition);
+
+        telemetry.addData("Claw close", clawposition);
+        if (clawposition >= MIN_POS) {
+            clawposition -= CLAW_INCREMENT;
+        }
+        robot.rightClaw.setPosition(clawposition);
+
+    }
+
+    public void turnandlatchontofoundatiion () {
+
+            double powerMultiplier = 0.5;
+
+
+
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive1.setPower(powerMultiplier);
+            robot.rightDrive1.setPower(0);
+            robot.leftDrive2.setPower(0);
+            robot.rightDrive2.setPower(0);
+
+
 
 
 
 
     }
+    public void grabFoundationandstrafeleft() {
+
+            double powerMultiplier = 0.5;
+
+            //encoderDrive(DRIVE_SPEED, 24, 24, 0.5);
+
+
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            encoderDrive(DRIVE_SPEED, 48, 48, 1.5);
+
+
+    }
+
 
 }
