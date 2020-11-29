@@ -87,12 +87,6 @@ public class WobbleGoalC extends ThunderbotsSquareAutonomous{
             double triggerPosition = this.robot.trigger.MAX_POSITION - 1.5;
             robot.trigger.setPosition(triggerPosition);
 
-            robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-
-            encoderDrive(DRIVE_SPEED, 24, 24, 0.2);
         }
         robot.shooter.setPower(0);
 
