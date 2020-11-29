@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="Target Line Park", group="Thunderbots")
-public class WobbleGoalA extends ThunderbotsSquareAutonomous{
+public class WobbleGoalC extends ThunderbotsSquareAutonomous{
     UGHardwarePushbot robot = new UGHardwarePushbot();
     @Override
     public void runOpMode() {
@@ -49,7 +49,7 @@ public class WobbleGoalA extends ThunderbotsSquareAutonomous{
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        encoderDrive(DRIVE_SPEED, 24, 24, 1.9);
+        encoderDrive(DRIVE_SPEED, 24, 24, 2.5);
 
         robot.wobbleArm.setDirection(DcMotorSimple.Direction.FORWARD);
         encoderDrive(DRIVE_SPEED,5,5, 0.7);
@@ -73,7 +73,7 @@ public class WobbleGoalA extends ThunderbotsSquareAutonomous{
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
+        encoderDrive(DRIVE_SPEED, 24, 24, 1.9);
 
         for (int a = 1; a<=3;a++) {
             robot.shooter.setDirection(DcMotorSimple.Direction.FORWARD);
