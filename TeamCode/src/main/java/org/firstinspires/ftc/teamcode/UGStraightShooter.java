@@ -19,10 +19,12 @@ public class UGStraightShooter extends ThunderbotsSquareAutonomous {
         robot.rightDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.shooter.setMode((DcMotor.RunMode.RUN_USING_ENCODER));
 
 
         // Send telemetry message to indicate successful Encoder reset
