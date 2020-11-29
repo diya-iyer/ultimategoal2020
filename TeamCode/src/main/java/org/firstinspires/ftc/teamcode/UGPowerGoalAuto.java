@@ -83,10 +83,10 @@ public class UGPowerGoalAuto extends ThunderbotsSquareAutonomous {
 
             double collectorPosition = this.robot.collector.MAX_POSITION + 1.5;
             robot.collector.setPosition(collectorPosition);
-
+            sleep(1000);
             double triggerPosition = this.robot.trigger.MAX_POSITION - 1.5;
             robot.trigger.setPosition(triggerPosition);
-
+            sleep(1000);
             robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);

@@ -83,10 +83,11 @@ public class WobbleGoalC extends ThunderbotsSquareAutonomous{
 
             double collectorPosition = this.robot.collector.MAX_POSITION + 1.5;
             robot.collector.setPosition(collectorPosition);
+            sleep(1000);
 
             double triggerPosition = this.robot.trigger.MAX_POSITION - 1.5;
             robot.trigger.setPosition(triggerPosition);
-
+            sleep(1000);
         }
         robot.shooter.setPower(0);
 
