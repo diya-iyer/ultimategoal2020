@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="Power Goal Auto", group="Thunderbots")
 public class UGPowerGoalAuto extends ThunderbotsSquareAutonomous {
+    UGHardwarePushbot robot = new UGHardwarePushbot();
     @Override
     public void runOpMode() {
 
@@ -19,10 +20,12 @@ public class UGPowerGoalAuto extends ThunderbotsSquareAutonomous {
         robot.rightDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         // Send telemetry message to indicate successful Encoder reset
@@ -35,6 +38,7 @@ public class UGPowerGoalAuto extends ThunderbotsSquareAutonomous {
         waitForStart();
         gettotargetline();
         strafelefttopowergoal();
+        shoot();
         moveforwardandpark();
 
             // Step through each leg of the path
@@ -69,10 +73,34 @@ public class UGPowerGoalAuto extends ThunderbotsSquareAutonomous {
 
 
     }
+    public void shoot () {
+        double shootPowerMultiplier = 0.5;
+
+        robot.shooter.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.shooter.setPower(shootPowerMultiplier);
+
+        for (int a = 1; a<=3;a++) {
+
+            double collectorPosition = this.robot.collector.MAX_POSITION + 1.5;
+            robot.collector.setPosition(collectorPosition);
+
+            double triggerPosition = this.robot.trigger.MAX_POSITION - 1.5;
+            robot.trigger.setPosition(triggerPosition);
+
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            encoderDrive(DRIVE_SPEED, 24, 24, 0.2);
+        }
+        robot.shooter.setPower(0);
+    }
+
 
     public void moveforwardandpark() {
 
-        sleep(5000);
+        sleep(500);
         //we'll enter the code for the shooter to shoot before this (once it is built)//
 
         double powerMultiplier = 0.5;

@@ -36,6 +36,7 @@ public class UGStraightShooter extends ThunderbotsSquareAutonomous {
         gettotargetline();
         strafelefttogoalpost();
         shoot();
+
         moveforwardandpark();
 
             // Step through each leg of the path
@@ -71,11 +72,12 @@ public class UGStraightShooter extends ThunderbotsSquareAutonomous {
 
     }
     public void shoot() {
-        double shooterpowerMultiplier = 0.5;
+        double shooterPowerMultiplier = 0.5;
+
+        robot.shooter.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.shooter.setPower(shooterPowerMultiplier);
 
         for (int a = 1; a<=3;a++) {
-            robot.shooter.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.shooter.setPower(shooterpowerMultiplier);
 
             double collectorPosition = this.robot.collector.MAX_POSITION + 1.5;
             robot.collector.setPosition(collectorPosition);
@@ -83,8 +85,14 @@ public class UGStraightShooter extends ThunderbotsSquareAutonomous {
             double triggerPosition = this.robot.trigger.MAX_POSITION - 1.5;
             robot.trigger.setPosition(triggerPosition);
 
-        }
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
 
+            encoderDrive(DRIVE_SPEED, 24, 24, 0.2);
+        }
+        robot.shooter.setPower(0);
 
 
     }
