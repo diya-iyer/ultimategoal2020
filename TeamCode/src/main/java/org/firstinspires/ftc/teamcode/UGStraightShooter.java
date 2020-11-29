@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="Power Goal Auto", group="Thunderbots")
 public class UGStraightShooter extends ThunderbotsSquareAutonomous {
+    UGHardwarePushbot robot = new UGHardwarePushbot();
     @Override
     public void runOpMode() {
-
         robot.init(hardwareMap);
         //initSkystoneCamera();
         // Send telemetry message to signify robot waiting;
@@ -34,7 +34,8 @@ public class UGStraightShooter extends ThunderbotsSquareAutonomous {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         gettotargetline();
-        strafelefttopowergoal();
+        strafelefttogoalpost();
+        shoot();
         moveforwardandpark();
 
             // Step through each leg of the path
@@ -55,7 +56,7 @@ public class UGStraightShooter extends ThunderbotsSquareAutonomous {
 
     }
 
-    public void strafelefttopowergoal() {
+    public void strafelefttogoalpost() {
         //robot gets into position to shoot the power goals//
 
         double powerMultiplier = 2;
@@ -65,13 +66,24 @@ public class UGStraightShooter extends ThunderbotsSquareAutonomous {
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        encoderDrive(DRIVE_SPEED, 24, 24, 2.1);
+        encoderDrive(DRIVE_SPEED, 24, 24, 1.0);
 
 
     }
     public void shoot() {
+        double shooterpowerMultiplier = 0.5;
 
+        for (int a = 1; a<=3;a++) {
+            robot.shooter.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.shooter.setPower(shooterpowerMultiplier);
 
+            double collectorPosition = this.robot.collector.MAX_POSITION + 1.5;
+            robot.collector.setPosition(collectorPosition);
+
+            double triggerPosition = this.robot.trigger.MAX_POSITION - 1.5;
+            robot.trigger.setPosition(triggerPosition);
+
+        }
 
 
 
@@ -79,8 +91,6 @@ public class UGStraightShooter extends ThunderbotsSquareAutonomous {
 
     public void moveforwardandpark() {
 
-        sleep(5000);
-        //we'll enter the code for the shooter to shoot before this (once it is built)//
 
         double powerMultiplier = 0.5;
 
