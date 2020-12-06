@@ -189,15 +189,15 @@ public class         UGOpMode_Linear extends LinearOpMode {
             }
 
             while (true) {
-                intakePower = this.robot.intakeMotor.getPower();
+                intakePower = this.robot.intakeMotorLow.getPower();
                 shooterPower = this.robot.shooterMotor.getPower();
                 if (stopIntake && stopWheel) { //checking the power of the motors
-                    robot.intakeMotor.setPower(0);//stop the motors
+                    robot.intakeMotorLow.setPower(0);//stop the motors
                     robot.shooterMotor.setPower(0);
                     break;
                 }
                 if (startIntake && startWheel) { //we have to keep setting the power as long as startInhaler is true
-                    robot.intakeMotor.setPower(powerMultiplier);
+                    robot.intakeMotorLow.setPower(powerMultiplier);
                     robot.shooterMotor.setPower(powerMultiplier);
                 }
                 telemetry.addData("Status", "Inhaling Ring");

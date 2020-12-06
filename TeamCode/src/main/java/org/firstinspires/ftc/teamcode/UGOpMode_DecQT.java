@@ -14,6 +14,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
     double leftBackwardPower;
     double rightBackwardPower;
     double intakePower;
+    double intakeHighPower;
     double shooterPower;
 
     double MAX_POS = 3.0;     // Maximum rotational position
@@ -25,6 +26,8 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
     boolean startIntake = false;
     boolean stopIntake = true;
+    boolean startIntakeHigh = false;
+    boolean stopIntakeHigh = false;
     boolean startWheel = false;
     boolean stopWheel = true;
     boolean collectorUp = false;
@@ -177,29 +180,36 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
         if (toggleIntakePressed ) {
 
-            if (startIntake && startWheel) { //Intake is already running. So Stop it.
+            if (startIntake && startWheel && startIntakeHigh) { //Intake is already running. So Stop it.
                 stopIntake = true;
                 startIntake = false;
                 stopWheel = true;
                 startWheel = false;
+                stopIntakeHigh = true;
+                startIntakeHigh = false;
             } else { //the Intake is not running. So Start it.
                 startIntake = true;
                 stopIntake = false;
                 startWheel = true;
                 stopWheel = false;
+                startIntakeHigh = true;
+                stopIntakeHigh = false;
             }
 
 
-            intakePower = this.robot.intakeMotor.getPower();
+            intakePower = this.robot.intakeMotorLow.getPower();
             shooterPower = this.robot.shooterMotor.getPower();
-            if (stopIntake && stopWheel) { //checking the power of the motors
-                    robot.intakeMotor.setPower(0);//stop the motors
+            intakeHighPower = this.robot.intakeMotorHigh.getPower();
+            if (stopIntake && stopWheel && stopIntakeHigh) { //checking the power of the motors
+                    robot.intakeMotorLow.setPower(0);//stop the motors
                     robot.shooterMotor.setPower(0);
+                    robot.intakeMotorHigh.setPower(0);
                     telemetry.addData("Status", "Stopping intake..");
             }
-            if (startIntake && startWheel) {
-                    robot.intakeMotor.setPower(powerMultiplier);
+            if (startIntake && startWheel && startIntakeHigh) {
+                    robot.intakeMotorLow.setPower(powerMultiplier);
                     robot.shooterMotor.setPower(powerMultiplier);
+                    robot.intakeMotorHigh.setPower(powerMultiplier);
                 telemetry.addData("Status", "Starting intake..");
             }
 

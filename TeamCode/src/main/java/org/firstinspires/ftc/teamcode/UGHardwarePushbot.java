@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,7 +16,8 @@ public class UGHardwarePushbot {
         public DcMotor  rightDrive2  = null;
 
         //Additional 3 motors apart from wheel motors
-        public DcMotor intakeMotor = null;
+        public DcMotor intakeMotorLow = null;
+        public DcMotor intakeMotorHigh = null;
         public DcMotor wobbleArmMotor = null;
         public DcMotor shooterMotor = null;
 
@@ -43,7 +45,8 @@ public class UGHardwarePushbot {
             leftDrive2  = hwMap.get(DcMotor.class, "left_drive2");
             rightDrive2 = hwMap.get(DcMotor.class, "right_drive2");
 
-            intakeMotor = hwMap.get(DcMotor.class, "intake");
+            intakeMotorLow = hwMap.get(DcMotor.class, "intake_low");
+            intakeMotorHigh = hwMap.get(DcMotor.class,"intake_high");
             wobbleArmMotor = hwMap.get(DcMotor.class, "wobble_arm");
             shooterMotor = hwMap.get(DcMotor.class,"shooter");
 
@@ -57,7 +60,8 @@ public class UGHardwarePushbot {
             leftDrive2.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
             rightDrive2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
 
-            intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+            intakeMotorLow.setDirection(DcMotor.Direction.FORWARD);
+            intakeMotorHigh.setDirection(DcMotor.Direction.FORWARD);
             wobbleArmMotor.setDirection(DcMotor.Direction.FORWARD);
             shooterMotor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -66,7 +70,8 @@ public class UGHardwarePushbot {
             rightDrive1.setPower(0);
             leftDrive2.setPower(0);
             rightDrive2.setPower(0);
-            intakeMotor.setPower(0);
+            intakeMotorLow.setPower(0);
+            intakeMotorHigh.setPower(0);
             wobbleArmMotor.setPower(0);
             shooterMotor.setPower(0);
 
@@ -76,7 +81,8 @@ public class UGHardwarePushbot {
             rightDrive1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             leftDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightDrive2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            intakeMotorLow.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            intakeMotorHigh.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             wobbleArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
