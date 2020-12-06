@@ -3,8 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-@TeleOp(name="A: UGOpMode", group="Thunderbots")
-public class         UGOpMode_Linear extends LinearOpMode {
+
+@TeleOp(name="A: UGOpModeQT", group="Thunderbots")
+public class UGOpMode_DecQT extends LinearOpMode {
     UGHardwarePushbot robot = new UGHardwarePushbot();   // Use a Pushbot's hardware
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -27,7 +28,7 @@ public class         UGOpMode_Linear extends LinearOpMode {
     boolean startWheel = false;
     boolean stopWheel = true;
     boolean collectorUp = false;
-    boolean collectordown = true;
+
     boolean triggerused = false;
     boolean triggerback = true;
 
@@ -39,7 +40,6 @@ public class         UGOpMode_Linear extends LinearOpMode {
     double ParkpowerMultiplier = .9;
     double MAX_POWER = 1.0;    // 1.00
     double POWER_INCREMENT = 0.2;
-
     double powerMultiplierArm = -0.8;
 
     // private Servo grabber = null;
@@ -60,12 +60,14 @@ public class         UGOpMode_Linear extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        //double tgtPower = 0;
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            // Setup a variable for each drive wheel to save power level for telemetry
+
+            //Each of these functions checks for specific buttons on gamepads and does the corresponding action
             driveMacChasis();
-            collectRing();
+            startStopIntake();
+            collectorUpDown();
             shootRing();
             wobbleGoal();
             telemetry.update();
@@ -169,70 +171,63 @@ public class         UGOpMode_Linear extends LinearOpMode {
 
     }
 
-    public void collectRing() {
+    public void startStopIntake() {
 
-        boolean inhaleRing = gamepad1.y;
-        boolean shootRing = gamepad1.y;
+        boolean toggleIntakePressed = gamepad1.y;
 
-        if (inhaleRing && shootRing) {
+        if (toggleIntakePressed ) {
 
-            if (startIntake && startWheel) { //inhaler is already running
+            if (startIntake && startWheel) { //Intake is already running. So Stop it.
                 stopIntake = true;
                 startIntake = false;
                 stopWheel = true;
                 startWheel = false;
-            } else { //the inhaler is not running
+            } else { //the Intake is not running. So Start it.
                 startIntake = true;
                 stopIntake = false;
                 startWheel = true;
                 stopWheel = false;
             }
 
-            while (true) {
-                intakePower = this.robot.intakeMotor.getPower();
-                shooterPower = this.robot.shooterMotor.getPower();
-                if (stopIntake && stopWheel) { //checking the power of the motors
+
+            intakePower = this.robot.intakeMotor.getPower();
+            shooterPower = this.robot.shooterMotor.getPower();
+            if (stopIntake && stopWheel) { //checking the power of the motors
                     robot.intakeMotor.setPower(0);//stop the motors
                     robot.shooterMotor.setPower(0);
-                    break;
-                }
-                if (startIntake && startWheel) { //we have to keep setting the power as long as startInhaler is true
+                    telemetry.addData("Status", "Stopping intake..");
+            }
+            if (startIntake && startWheel) {
                     robot.intakeMotor.setPower(powerMultiplier);
                     robot.shooterMotor.setPower(powerMultiplier);
-                }
-                telemetry.addData("Status", "Inhaling Ring");
-                telemetry.update();
+                telemetry.addData("Status", "Starting intake..");
             }
+
+            telemetry.update();
+
         }
     }
 
-
-    public void shootRing() {
+    public void collectorUpDown(){
         boolean liftCollector = gamepad1.x;
-        boolean activateTrigger = gamepad1.b;
         if (liftCollector) {
-
-            if (collectorUp) { //the collector has been lifted
-                    collectordown = true;
-                    collectorUp = false;
-                } else { //the collector has not been lifted
-                    collectorUp = true;
-                    collectordown = false;
-
-                }
-
-                if (collectordown) { //checking the power of the motors
-                    robot.collectorServo.setPosition(collectorPosition);//stop the motors
-            }
-            if (collectorUp) { //we have to keep setting the power as long as startInhaler is true
-                if (collectorPosition <= MAX_POS) {
+            //Toggle the collector
+            if (collectorUp) { //the collector has already been lifted. Reset it
+                robot.collectorServo.setPosition(collectorPosition);//reset the servo
+                collectorUp = false;
+            } else { //the collector has not been lifted
+                if (collectorPosition <= MAX_POS)
                     collectorPosition += COLLECTORINCREMENT;
-                }
+                collectorUp = true;
             }
-
 
         }
-        if (activateTrigger) {
+    }
+
+    public void shootRing() {
+        boolean activateTrigger = gamepad1.b;
+
+        if (activateTrigger && collectorUp) {
 
             if (triggerused) { //the collector has been lifted
                 triggerback = true;
