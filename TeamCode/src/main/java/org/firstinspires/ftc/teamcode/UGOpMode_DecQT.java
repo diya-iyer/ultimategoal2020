@@ -64,7 +64,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            telemetry.addData("Status", "Intial Position");    //
+            telemetry.addData("Status", "Intial Position ", robot.collectorServo.getPosition());    //
             telemetry.update();
             //Each of these functions checks for specific buttons on gamepads and does the corresponding action
             driveMacChasis();
@@ -242,13 +242,15 @@ public class UGOpMode_DecQT extends LinearOpMode {
         telemetry.addData("Collector buttons status - go down", letGoCollector );
         telemetry.addData("Collector position ", collectorPosition );
         if (liftCollector & !collectorUp) {
-            robot.collectorServo.setPosition(MAX_POS);
+            robot.collectorServo.setPosition(collectorPosition+COLLECTORINCREMENT);
+            collectorPosition=robot.collectorServo.getPosition();
             telemetry.addData("Collector Lifted ", collectorPosition);
             collectorUp=true;
 
         }
         else if (letGoCollector & collectorUp ) {
-            robot.collectorServo.setPosition(MIN_POS);
+            robot.collectorServo.setPosition(collectorPosition-COLLECTORINCREMENT);
+            collectorPosition=robot.collectorServo.getPosition();
             telemetry.addData("Collector Let Go ", collectorPosition);
             collectorUp=false;
         }
