@@ -237,14 +237,15 @@ public class UGOpMode_DecQT extends LinearOpMode {
                 robot.collectorServo.setPosition(collectorPosition);
                 telemetry.addData("Collector Down", collectorPosition);
             }*/
+        //More telemtry on buttons
         telemetry.addData("Collector buttons status - lift ", liftCollector );
         telemetry.addData("Collector buttons status - go down", letGoCollector );
-        if (liftCollector) {
+        if (liftCollector & !collectorUp) {
             robot.collectorServo.setPosition(MAX_POS);
             telemetry.addData("Collector Lifted ", collectorPosition);
 
         }
-        else if (letGoCollector) {
+        else if (letGoCollector & collectorUp ) {
             robot.collectorServo.setPosition(MIN_POS);
             telemetry.addData("Collector Let Go ", collectorPosition);
         }
