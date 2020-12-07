@@ -32,6 +32,11 @@ public class UGOpMode_DecQT extends LinearOpMode {
     boolean triggerused = false;
     boolean triggerback = true;
 
+    boolean collectorStarted = false;
+
+    double COLLECTOR_MAX_POS = 0;
+    double COLLECTOR_MIN_POS = 0;
+
 
     double powerMultiplier = 1.0; // 1.0
     double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
@@ -52,6 +57,8 @@ public class UGOpMode_DecQT extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         robot.init(hardwareMap);
 
+
+
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Init Done");    //
         telemetry.update();
@@ -60,12 +67,12 @@ public class UGOpMode_DecQT extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
+        double COLLECTOR_MAX_POS = this.robot.collectorServo.MAX_POSITION;
+        double COLLECTOR_MIN_POS = this.robot.collectorServo.MIN_POSITION;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            telemetry.addData("Status", "Intial Position");    //
-            telemetry.update();
             //Each of these functions checks for specific buttons on gamepads and does the corresponding action
             driveMacChasis();
             startStopIntake();
@@ -218,27 +225,32 @@ public class UGOpMode_DecQT extends LinearOpMode {
     }
 
     public void collectorUpDown() {
+
         boolean liftCollector = gamepad2.y;
         boolean letGoCollector = gamepad2.a;
 
         double collectorPosition = robot.collectorServo.getPosition();
 
-        MAX_POS = this.robot.collectorServo.MAX_POSITION;
-        MIN_POS = this.robot.collectorServo.MIN_POSITION;
-      /*  if (liftCollector) {
-            if (collectorPosition <= MAX_POS) {
+        if (liftCollector && !collectorStarted) {
+             collectorStarted = true;
+            while (collectorPosition <= MAX_POS) {
                 collectorPosition += COLLECTORINCREMENT;
                 robot.collectorServo.setPosition(collectorPosition);
                 telemetry.addData("Collector Lifted", collectorPosition);
             }
-        } else if (letGoCollector) {
-            if (collectorPosition >= MIN_POS) {
-                collectorPosition -= COLLECTORINCREMENT;
-                robot.collectorServo.setPosition(collectorPosition);
-                telemetry.addData("Collector Down", collectorPosition);
-            }*/
+            liftCollector = false;
+        } else if (letGoCollector && collectorStarted) {
+           collectorStarted = false;
+           while (collectorPosition >= MIN_POS) {
+               collectorPosition -= COLLECTORINCREMENT;
+               robot.collectorServo.setPosition(collectorPosition);
+               telemetry.addData("Collector Down", collectorPosition);
+           }
+           letGoCollector = false;
+       }
+        telemetry.update();
         //More telemtry on buttons
-        telemetry.addData("Collector buttons status - lift ", liftCollector );
+        /* telemetry.addData("Collector buttons status - lift ", liftCollector );
         telemetry.addData("Collector buttons status - go down", letGoCollector );
         telemetry.addData("Collector position ", collectorPosition );
         if (liftCollector & !collectorUp) {
@@ -251,7 +263,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
             robot.collectorServo.setPosition(MIN_POS);
             telemetry.addData("Collector Let Go ", collectorPosition);
             collectorUp=false;
-        }
+        } */
     }
     public void shootRing() {
         boolean activateTrigger = gamepad2.x;
