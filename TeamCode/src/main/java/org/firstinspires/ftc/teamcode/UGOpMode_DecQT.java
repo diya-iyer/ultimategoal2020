@@ -64,7 +64,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            telemetry.addData("Status", "Intial Position ", robot.collectorServo.getPosition());    //
+            telemetry.addData("Status", "Intial Position");    //
             telemetry.update();
             //Each of these functions checks for specific buttons on gamepads and does the corresponding action
             driveMacChasis();
@@ -241,18 +241,14 @@ public class UGOpMode_DecQT extends LinearOpMode {
         telemetry.addData("Collector buttons status - lift ", liftCollector );
         telemetry.addData("Collector buttons status - go down", letGoCollector );
         telemetry.addData("Collector position ", collectorPosition );
-        telemetry.addData("Collector Max position ", MAX_POS );
-        telemetry.addData("Collector Max position ", MIN_POS );
         if (liftCollector & !collectorUp) {
-            robot.collectorServo.setPosition(collectorPosition+COLLECTORINCREMENT);
-            collectorPosition=robot.collectorServo.getPosition();
+            robot.collectorServo.setPosition(MAX_POS);
             telemetry.addData("Collector Lifted ", collectorPosition);
             collectorUp=true;
 
         }
         else if (letGoCollector & collectorUp ) {
-            robot.collectorServo.setPosition(collectorPosition-COLLECTORINCREMENT);
-            collectorPosition=robot.collectorServo.getPosition();
+            robot.collectorServo.setPosition(MIN_POS);
             telemetry.addData("Collector Let Go ", collectorPosition);
             collectorUp=false;
         }
@@ -262,31 +258,15 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
         double triggerPosition = robot.triggerServo.getPosition();
 
+
         MAX_POS = this.robot.triggerServo.MAX_POSITION;
         MIN_POS = this.robot.triggerServo.MIN_POSITION;
         if (activateTrigger) {
             telemetry.addData("Trigger Activated", triggerPosition);
-            if (triggerPosition == MIN_POS) {
-
-
-                robot.triggerServo.setPosition(MIN_POS+0.5);
-                robot.triggerServo.setPosition(MAX_POS);
-                robot.triggerServo.setPosition(MAX_POS-0.5);
-                robot.triggerServo.setPosition(MIN_POS);
-
+            if (triggerPosition <= MAX_POS) {
+                triggerPosition += TRIGGERINCREMENT;
             }
-            else if (triggerPosition == MAX_POS) {
-
-                robot.triggerServo.setPosition(MAX_POS-0.5);
-                robot.triggerServo.setPosition(MIN_POS);
-                robot.triggerServo.setPosition(MIN_POS+0.5);
-                robot.triggerServo.setPosition(MAX_POS);
-
-
-            }
-
         }
-
     }
 
 
