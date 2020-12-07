@@ -243,11 +243,13 @@ public class UGOpMode_DecQT extends LinearOpMode {
         if (liftCollector & !collectorUp) {
             robot.collectorServo.setPosition(MIN_POS);
             telemetry.addData("Collector Lifted ", collectorPosition);
+            collectorUp=true;
 
         }
         else if (letGoCollector & collectorUp ) {
             robot.collectorServo.setPosition(MAX_POS);
             telemetry.addData("Collector Let Go ", collectorPosition);
+            collectorUp=false;
         }
     }
     public void shootRing() {
