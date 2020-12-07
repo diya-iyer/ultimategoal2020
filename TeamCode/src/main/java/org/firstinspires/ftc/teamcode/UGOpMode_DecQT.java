@@ -209,7 +209,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
             if (startIntake && startWheel && startIntakeHigh) {
                     robot.intakeMotorLow.setPower(powerMultiplier);
                     robot.shooterMotor.setPower(powerMultiplier);
-                    robot.intakeMotorHigh.setPower(powerMultiplier);
+                    robot.intakeMotorHigh.setPower(-powerMultiplier);
                 telemetry.addData("Status", "Starting intake..");
             }
 
@@ -218,43 +218,39 @@ public class UGOpMode_DecQT extends LinearOpMode {
         }
     }
 
-    public void collectorUpDown(){
-        boolean liftCollector = gamepad1.x;
+    public void collectorUpDown() {
+        boolean liftCollector = gamepad2.y;
+        boolean letGoCollector = gamepad2.a;
+
+        MAX_POS = this.robot.collectorServo.MAX_POSITION;
+        MIN_POS = this.robot.collectorServo.MIN_POSITION;
         if (liftCollector) {
-            //Toggle the collector
-            if (collectorUp) { //the collector has already been lifted. Reset it
-                robot.collectorServo.setPosition(collectorPosition);//reset the servo
-                collectorUp = false;
-            } else { //the collector has not been lifted
-                if (collectorPosition <= MAX_POS)
-                    collectorPosition += COLLECTORINCREMENT;
-                collectorUp = true;
+            telemetry.addData("Collector Lifted", collectorPosition);
+            if (wobbleClawPositon <= MAX_POS) {
+                wobbleClawPositon += COLLECTORINCREMENT;
             }
+            robot.wobbleClawServo.setPosition(collectorPosition);
+        } else if (letGoCollector) {
+            telemetry.addData("Collector Down", collectorPosition);
+            if (wobbleClawPositon >= MIN_POS) {
+                wobbleClawPositon -= COLLECTORINCREMENT;
+                robot.wobbleClawServo.setPosition(collectorPosition);
+
+            }
+
 
         }
     }
-
     public void shootRing() {
-        boolean activateTrigger = gamepad1.b;
+        boolean activateTrigger = gamepad2.x;
 
-        if (activateTrigger && collectorUp) {
-
-            if (triggerused) { //the collector has been lifted
-                triggerback = true;
-                triggerused = false;
-            } else { //the collector has not been lifted
-                triggerused = true;
-                triggerback = false;
-
-            }
-
-            if (triggerback) { //checking the power of the motors
-                robot.triggerServo.setPosition(triggerPosition);//stop the motors
-            }
-            if (triggerused) { //we have to keep setting the power as long as startInhaler is true
-                if (triggerPosition <= MAX_POS) {
-                    triggerPosition += TRIGGERINCREMENT;
-                }
+        MAX_POS = this.robot.triggerServo.MAX_POSITION;
+        MIN_POS = this.robot.triggerServo.MIN_POSITION;
+        if (activateTrigger) {
+            telemetry.addData("Trigger Activated", triggerPosition);
+            if (triggerPosition <= MAX_POS) {
+                triggerPosition += TRIGGERINCREMENT;
+                triggerPosition -= TRIGGERINCREMENT;
             }
         }
     }
@@ -262,10 +258,10 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
 
             public void wobbleGoal () {
-                boolean wobbleClawOpen = gamepad1.dpad_left;
-                boolean wobbleClawClose = gamepad1.dpad_right;
-                float wobbleArmUp = gamepad1.left_trigger;
-                float wobbleArmDown = gamepad1.right_trigger;
+                boolean wobbleClawOpen = gamepad2.dpad_left;
+                boolean wobbleClawClose = gamepad2.dpad_right;
+                float wobbleArmUp = gamepad2.left_trigger;
+                float wobbleArmDown = gamepad2.right_trigger;
 
                 MAX_POS = this.robot.wobbleClawServo.MAX_POSITION;
                 MIN_POS = this.robot.wobbleClawServo.MIN_POSITION;
