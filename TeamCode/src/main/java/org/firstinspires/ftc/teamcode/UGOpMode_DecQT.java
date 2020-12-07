@@ -20,9 +20,6 @@ public class UGOpMode_DecQT extends LinearOpMode {
     double MAX_POS = 3.0;     // Maximum rotational position
     double MIN_POS = 0.0;     // Minimum rotational position
 
-    double wobbleClawPositon = 0;
-    double collectorPosition = 0;
-    double triggerPosition = 0;
 
     boolean startIntake = false;
     boolean stopIntake = true;
@@ -37,7 +34,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
 
     double powerMultiplier = 1.0; // 1.0
-    double CLAWINCREMENT = 0.4; //may have to adjust, check before finalizing
+    double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
     double COLLECTORINCREMENT = 1.0;
     double TRIGGERINCREMENT = 1.0;
     double ParkpowerMultiplier = .9;
@@ -67,6 +64,8 @@ public class UGOpMode_DecQT extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            telemetry.addData("Status", "Intial Position");    //
+            telemetry.update();
             //Each of these functions checks for specific buttons on gamepads and does the corresponding action
             driveMacChasis();
             startStopIntake();
@@ -222,27 +221,36 @@ public class UGOpMode_DecQT extends LinearOpMode {
         boolean liftCollector = gamepad2.y;
         boolean letGoCollector = gamepad2.a;
 
+        double collectorPosition = robot.collectorServo.getPosition();
+
         MAX_POS = this.robot.collectorServo.MAX_POSITION;
         MIN_POS = this.robot.collectorServo.MIN_POSITION;
-        if (liftCollector) {
-            telemetry.addData("Collector Lifted", collectorPosition);
-            if (wobbleClawPositon <= MAX_POS) {
-                wobbleClawPositon += COLLECTORINCREMENT;
+      /*  if (liftCollector) {
+            if (collectorPosition <= MAX_POS) {
+                collectorPosition += COLLECTORINCREMENT;
+                robot.collectorServo.setPosition(collectorPosition);
+                telemetry.addData("Collector Lifted", collectorPosition);
             }
-            robot.wobbleClawServo.setPosition(collectorPosition);
         } else if (letGoCollector) {
-            telemetry.addData("Collector Down", collectorPosition);
-            if (wobbleClawPositon >= MIN_POS) {
-                wobbleClawPositon -= COLLECTORINCREMENT;
-                robot.wobbleClawServo.setPosition(collectorPosition);
+            if (collectorPosition >= MIN_POS) {
+                collectorPosition -= COLLECTORINCREMENT;
+                robot.collectorServo.setPosition(collectorPosition);
+                telemetry.addData("Collector Down", collectorPosition);
+            }*/
+        if (liftCollector) {
+            robot.collectorServo.setPosition(MAX_POS);
 
-            }
+        }
+        else if (letGoCollector) {
 
-
+            robot.collectorServo.setPosition(MIN_POS);
         }
     }
     public void shootRing() {
         boolean activateTrigger = gamepad2.x;
+
+        double triggerPosition = robot.triggerServo.getPosition();
+
 
         MAX_POS = this.robot.triggerServo.MAX_POSITION;
         MIN_POS = this.robot.triggerServo.MIN_POSITION;
@@ -250,7 +258,6 @@ public class UGOpMode_DecQT extends LinearOpMode {
             telemetry.addData("Trigger Activated", triggerPosition);
             if (triggerPosition <= MAX_POS) {
                 triggerPosition += TRIGGERINCREMENT;
-                triggerPosition -= TRIGGERINCREMENT;
             }
         }
     }
@@ -262,6 +269,9 @@ public class UGOpMode_DecQT extends LinearOpMode {
                 boolean wobbleClawClose = gamepad2.dpad_right;
                 float wobbleArmUp = gamepad2.left_trigger;
                 float wobbleArmDown = gamepad2.right_trigger;
+
+                double wobbleClawPositon = robot.wobbleClawServo.getPosition();
+
 
                 MAX_POS = this.robot.wobbleClawServo.MAX_POSITION;
                 MIN_POS = this.robot.wobbleClawServo.MIN_POSITION;
