@@ -17,7 +17,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
     double intakeHighPower;
     double shooterPower;
 
-    double MAX_POS = 3.0;     // Maximum rotational position
+    double MAX_POS = 1.0;     // Maximum rotational position
     double MIN_POS = 0.0;     // Minimum rotational position
 
 
@@ -36,7 +36,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
     double powerMultiplier = 1.0; // 1.0
     double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
     double COLLECTORINCREMENT = 1.0;
-    double TRIGGERINCREMENT = 1.0;
+    double TRIGGERINCREMENT = 0.5;
     double ParkpowerMultiplier = .9;
     double MAX_POWER = 1.0;    // 1.00
     double POWER_INCREMENT = 0.2;
@@ -261,11 +261,20 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
         MAX_POS = this.robot.triggerServo.MAX_POSITION;
         MIN_POS = this.robot.triggerServo.MIN_POSITION;
-        if (activateTrigger) {
+        //if (gamepad1.x && triggerPosition < MAX_POS) {
+         //   telemetry.addData("Trigger Activated", triggerPosition);
+         //    triggerPosition += .01;
+   // }
+        if (activateTrigger && triggerPosition < MAX_POS) {
             telemetry.addData("Trigger Activated", triggerPosition);
             if (triggerPosition <= MAX_POS) {
                 triggerPosition += TRIGGERINCREMENT;
             }
+        /*if (activateTrigger) {
+            telemetry.addData("Trigger Activated", triggerPosition);
+            if (triggerPosition <= MAX_POS) {
+                triggerPosition += TRIGGERINCREMENT;
+            } */
         }
     }
 
