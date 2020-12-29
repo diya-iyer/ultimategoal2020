@@ -55,13 +55,13 @@ public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous{
         encoderDrive(DRIVE_SPEED, 24, 24, 1.9);
 
         robot.wobbleArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        encoderDrive(DRIVE_SPEED,5,5, 0.7);
+        encoderDrive(DRIVE_SPEED,5,5, 0.3);
 
-        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION-1.5;
+        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION+1.0;
         robot.wobbleClawServo.setPosition(wobbleClawPosition);
 
         robot.wobbleArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(DRIVE_SPEED,5,5, 0.7);
+        encoderDrive(DRIVE_SPEED,5,5, 0.3);
 
 
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -82,13 +82,13 @@ public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous{
         robot.shooterMotor.setPower(shooterPowerMultiplier);
 
         for (int a = 1; a<=3;a++) {
-
-            double collectorPosition = this.robot.collectorServo.MAX_POSITION + 1.5;
-            robot.collectorServo.setPosition(collectorPosition);
-            sleep(1000);
-            double triggerPosition = this.robot.triggerServo.MAX_POSITION - 1.5;
+            double triggerPosition = this.robot.triggerServo.MAX_POSITION + 0.5;
             robot.triggerServo.setPosition(triggerPosition);
             sleep(1000);
+           double triggerPosition2 = this.robot.triggerServo.MIN_POSITION - 0.5;
+           robot.triggerServo.setPosition(triggerPosition2);
+           sleep(1000);
+
         }
         robot.shooterMotor.setPower(0);
 
