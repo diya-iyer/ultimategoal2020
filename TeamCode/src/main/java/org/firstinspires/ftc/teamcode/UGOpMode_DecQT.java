@@ -34,6 +34,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
 
     double powerMultiplier = 1.0; // 1.0
+    double wobblepowerMultiplier = 0.3;
     double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
     double COLLECTORINCREMENT = 1.0;
     double TRIGGERINCREMENT = 0.5;
@@ -41,7 +42,8 @@ public class UGOpMode_DecQT extends LinearOpMode {
     double MAX_POWER = 1.0;    // 1.00
     double POWER_INCREMENT = 0.2;
     double powerMultiplierArm = -0.8;
-
+    boolean activateTrigger = false;
+    double aLastTriggerTime=0.0;
     // private Servo grabber = null;
     @Override
     public void runOpMode() {
@@ -55,17 +57,17 @@ public class UGOpMode_DecQT extends LinearOpMode {
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Init Done");    //
         telemetry.update();
-
+        //telemetry.setAutoClear(false);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-
+        telemetry.addData("Status", "Intial Position");    //
+        telemetry.update();
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            telemetry.addData("Status", "Intial Position");    //
-            telemetry.update();
+
             //Each of these functions checks for specific buttons on gamepads and does the corresponding action
             driveMacChasis();
             startStopIntake();
@@ -165,11 +167,12 @@ public class UGOpMode_DecQT extends LinearOpMode {
         leftBackwardPower = this.robot.leftDrive1.getPower();
         rightBackwardPower = this.robot.rightDrive1.getPower();
         // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Inputs received", "Drive Forward: " + driveForward + " Drive Backward: " + driveBackward + " Drive Right: " + turnRight + " Drive Left: " + turnLeft);
-        telemetry.addData("Motors Forward", "left (%.2f), right (%.2f)", leftForwardPower, rightForwardPower);
-        telemetry.addData("Motors Backward", "left (%.2f), right (%.2f)", leftBackwardPower, rightBackwardPower);
-
+        if (!driveStop) {
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Inputs received", "Drive Forward: " + driveForward + " Drive Backward: " + driveBackward + " Drive Right: " + turnRight + " Drive Left: " + turnLeft);
+            telemetry.addData("Motors Forward", "left (%.2f), right (%.2f)", leftForwardPower, rightForwardPower);
+            telemetry.addData("Motors Backward", "left (%.2f), right (%.2f)", leftBackwardPower, rightBackwardPower);
+        }
 
     }
 
@@ -207,7 +210,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
             }
             if (startIntake && startWheel && startIntakeHigh) {
                     robot.intakeMotorLow.setPower(powerMultiplier);
-                    robot.shooterMotor.setPower(powerMultiplier);
+                    robot.shooterMotor.setPower(-powerMultiplier);
                     robot.intakeMotorHigh.setPower(-powerMultiplier);
                 telemetry.addData("Status", "Starting intake..");
             }
@@ -227,55 +230,82 @@ public class UGOpMode_DecQT extends LinearOpMode {
         MIN_POS = this.robot.collectorServo.MIN_POSITION;
       /*  if (liftCollector) {
             if (collectorPosition <= MAX_POS) {
-                collectorPosition += COLLECTORINCREMENT;
+                collectorPosition += ceil( COLLECTORINCREMENT,MAX_POS) ;
                 robot.collectorServo.setPosition(collectorPosition);
                 telemetry.addData("Collector Lifted", collectorPosition);
             }
         } else if (letGoCollector) {
             if (collectorPosition >= MIN_POS) {
-                collectorPosition -= COLLECTORINCREMENT;
+                collectorPosition -= floor(COLLECTORINCREMENT, MIN_POS);
                 robot.collectorServo.setPosition(collectorPosition);
                 telemetry.addData("Collector Down", collectorPosition);
             }*/
         //More telemtry on buttons
-        telemetry.addData("Collector buttons status - lift ", liftCollector );
-        telemetry.addData("Collector buttons status - go down", letGoCollector );
-        telemetry.addData("Collector position ", collectorPosition );
-        if (liftCollector & !collectorUp) {
+       // telemetry.addData("Collector buttons status - lift", liftCollector );
+        //telemetry.addData("Collector buttons status - go down", letGoCollector );
+        telemetry.addData("Collector position  ", collectorPosition );
+        if (liftCollector && !collectorUp) {
             robot.collectorServo.setPosition(MAX_POS);
             telemetry.addData("Collector Lifted ", collectorPosition);
             collectorUp=true;
 
         }
-        else if (letGoCollector & collectorUp ) {
+        else if (letGoCollector && collectorUp ) {
             robot.collectorServo.setPosition(MIN_POS);
             telemetry.addData("Collector Let Go ", collectorPosition);
             collectorUp=false;
         }
     }
     public void shootRing() {
-        boolean activateTrigger = gamepad2.x;
-
+        boolean triggerPressed = gamepad2.x;
+        double oldtriggerPosition =robot.triggerServo.getPosition();
         double triggerPosition = robot.triggerServo.getPosition();
-
 
         MAX_POS = this.robot.triggerServo.MAX_POSITION;
         MIN_POS = this.robot.triggerServo.MIN_POSITION;
         //if (gamepad1.x && triggerPosition < MAX_POS) {
          //   telemetry.addData("Trigger Activated", triggerPosition);
          //    triggerPosition += .01;
-   // }
-        if (activateTrigger && triggerPosition < MAX_POS) {
-            telemetry.addData("Trigger Activated", triggerPosition);
-            if (triggerPosition <= MAX_POS) {
-                triggerPosition += TRIGGERINCREMENT;
+         // }
+
+        if (triggerPressed) {  // trigger pressed a
+            telemetry.addData("Trigger Pressed; Current Position: ", triggerPosition);
+            /*if (activateTrigger) //trigger has already been activated.
+                return;*/
+            /*if ( (getRuntime() - aLastTriggerTime) < 2) //trigger button clicked too frequently. Allow 2 secs
+                return;*/
+            activateTrigger=true;
+            //aLastTriggerTime= getRuntime();
+            telemetry.addData("Trigger Activated; Current Position: ", triggerPosition);
+            if (triggerPosition == MAX_POS ) {
+                //triggerPosition += TRIGGERINCREMENT;
+                triggerPosition =MIN_POS;
             }
-        /*if (activateTrigger) {
+            else if (triggerPosition==MIN_POS) {
+                //triggerPosition -= TRIGGERINCREMENT;
+                triggerPosition= MAX_POS;
+            }
+            else if (triggerPosition < (MIN_POS + (MAX_POS-MIN_POS)/2)){ //closer to min
+                triggerPosition= MAX_POS;
+            }
+            else //closer to max
+                triggerPosition= MIN_POS;
+            robot.triggerServo.setPosition(triggerPosition);
+            telemetry.addData("Trigger Activated; New Position: ", triggerPosition);
+            //After triggering  go back to old position
+            //robot.triggerServo.setPosition(oldtriggerPosition);
+
+
+            /*if (activateTrigger) {
             telemetry.addData("Trigger Activated", triggerPosition);
             if (triggerPosition <= MAX_POS) {
                 triggerPosition += TRIGGERINCREMENT;
             } */
         }
+        else {
+            activateTrigger = false;
+        }
+
     }
 
 
@@ -293,14 +323,14 @@ public class UGOpMode_DecQT extends LinearOpMode {
                 MIN_POS = this.robot.wobbleClawServo.MIN_POSITION;
 
                 if (wobbleArmUp > 0.5) {
-                    robot.wobbleArmMotor.setPower(powerMultiplier);
+                    robot.wobbleArmMotor.setPower(wobblepowerMultiplier);
                 }
                 else if (wobbleArmUp == 0) {
                     robot.wobbleArmMotor.setPower(0);
                 }
 
                 if (wobbleArmDown > 0.5) {
-                    robot.wobbleArmMotor.setPower(-powerMultiplier);
+                    robot.wobbleArmMotor.setPower(-wobblepowerMultiplier);
                 }
                 else if (wobbleArmDown == 0) {
                     robot.wobbleArmMotor.setPower(0);
