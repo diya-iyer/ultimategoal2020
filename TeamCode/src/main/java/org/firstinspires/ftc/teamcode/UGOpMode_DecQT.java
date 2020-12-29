@@ -34,7 +34,8 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
 
     double powerMultiplier = 1.0; // 1.0
-    double wobblepowerMultiplier = 0.3;
+    double wobbledownpowerMultiplier = 0.5;
+    double wobbleuppowerMultiplier = 0.8;
     double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
     double COLLECTORINCREMENT = 1.0;
     double TRIGGERINCREMENT = 0.5;
@@ -323,14 +324,14 @@ public class UGOpMode_DecQT extends LinearOpMode {
                 MIN_POS = this.robot.wobbleClawServo.MIN_POSITION;
 
                 if (wobbleArmUp > 0.5) {
-                    robot.wobbleArmMotor.setPower(wobblepowerMultiplier);
+                    robot.wobbleArmMotor.setPower(wobbleuppowerMultiplier);
                 }
                 else if (wobbleArmUp == 0) {
                     robot.wobbleArmMotor.setPower(0);
                 }
 
                 if (wobbleArmDown > 0.5) {
-                    robot.wobbleArmMotor.setPower(-wobblepowerMultiplier);
+                    robot.wobbleArmMotor.setPower(-wobbledownpowerMultiplier);
                 }
                 else if (wobbleArmDown == 0) {
                     robot.wobbleArmMotor.setPower(0);
