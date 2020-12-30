@@ -13,7 +13,7 @@ public class UGTowerGoalAuto extends ThunderbotsSquareAutonomous {
         robot.init(hardwareMap);
         //initSkystoneCamera();
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Init done");    //
+        /*telemetry.addData("Status", "Init done");    //
         telemetry.update();
 
         robot.leftDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -31,7 +31,7 @@ public class UGTowerGoalAuto extends ThunderbotsSquareAutonomous {
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0", "Starting at %7d :%7d",
                 robot.leftDrive1.getCurrentPosition(),
-                robot.rightDrive1.getCurrentPosition());
+                robot.rightDrive1.getCurrentPosition());*/
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
