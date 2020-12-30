@@ -31,7 +31,9 @@ public class UGTowerGoalAuto extends ThunderbotsSquareAutonomous {
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0", "Starting at %7d :%7d",
                 robot.leftDrive1.getCurrentPosition(),
-                robot.rightDrive1.getCurrentPosition());
+                robot.rightDrive1.getCurrentPosition(),
+                 robot.leftDrive2.getCurrentPosition(),
+                robot.rightDrive2.getCurrentPosition());
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="WobbleGoalA", group="Thunderbots")
-public class UGAutonomousWobbleGoalA extends UGTowerGoalAuto {
+public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     double powerMultiplier = 0.5;
     double shooterPowerMultiplier = 0.5;
@@ -31,7 +31,6 @@ public class UGAutonomousWobbleGoalA extends UGTowerGoalAuto {
         robot.shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0", "Starting at %7d :%7d",
                 robot.leftDrive1.getCurrentPosition(),
@@ -41,8 +40,9 @@ public class UGAutonomousWobbleGoalA extends UGTowerGoalAuto {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         dropWobbleGoalAGetIntoShootingPosition();
-        shootRingsIntoTowerGoal();
-        moveforwardandpark();
+        shootAndPark();
+       /* shootRingsIntoTowerGoal();
+        moveforwardandpark(); */
 
     }
 
@@ -57,13 +57,13 @@ public class UGAutonomousWobbleGoalA extends UGTowerGoalAuto {
         encoderDrive(DRIVE_SPEED, 24, 24, 1.9);
 
         robot.wobbleArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        encoderDrive(DRIVE_SPEED,5,5, 0.3);
+        encoderDrive(DRIVE_SPEED, 5, 5, 0.3);
 
-        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION+1.0;
+        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION + 1.0;
         robot.wobbleClawServo.setPosition(wobbleClawPosition);
 
         robot.wobbleArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(DRIVE_SPEED,5,5, 0.3);
+        encoderDrive(DRIVE_SPEED, 5, 5, 0.3);
 
 
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -81,20 +81,23 @@ public class UGAutonomousWobbleGoalA extends UGTowerGoalAuto {
         encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
 
     }
-    /*public void shootAndPark() {
+
+    public void shootAndPark() {
         robot.shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.shooterMotor.setPower(shooterPowerMultiplier);
 
         //shoot 3 pre-loaded rings
-        for (int a = 1; a<=3;a++) {
-            double triggerPosition = this.robot.triggerServo.MAX_POSITION + 0.5;
-            robot.triggerServo.setPosition(triggerPosition);
-            sleep(1000);
-            double triggerPosition2 = this.robot.triggerServo.MIN_POSITION - 0.5;
-            robot.triggerServo.setPosition(triggerPosition2);
-            sleep(1000);
+        for (int a = 1; a <= 3; a++) {
+            telemetry.addData("Status", "Trigger");
+            double triggerposition = this.robot.triggerServo.MIN_POSITION+1.5;
+            robot.triggerServo.setPosition(triggerposition);
+            telemetry.addData("Status", "FoundationArmUp");
+            triggerposition = this.robot.triggerServo.MAX_POSITION-1.5;
+            robot.triggerServo.setPosition(triggerposition);
 
         }
+
+
         robot.shooterMotor.setPower(0);
 
         //get into parking location
@@ -104,7 +107,7 @@ public class UGAutonomousWobbleGoalA extends UGTowerGoalAuto {
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
-    }*/
+    }
 }
 
 
