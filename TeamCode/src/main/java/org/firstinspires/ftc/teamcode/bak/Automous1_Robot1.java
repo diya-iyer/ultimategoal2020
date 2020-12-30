@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.ThunderbotsUtil;
-import org.firstinspires.ftc.teamcode.ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode;
 
 //@Autonomous(name="AutonomousPark_Robot1", group="Thunderbots")
 

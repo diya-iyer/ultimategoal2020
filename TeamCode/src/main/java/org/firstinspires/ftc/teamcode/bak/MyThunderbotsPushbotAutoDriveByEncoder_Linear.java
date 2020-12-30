@@ -29,11 +29,9 @@
 
 package org.firstinspires.ftc.teamcode.bak;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.bak.MacHardwarePushbot;
-import org.firstinspires.ftc.teamcode.ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode;
+
 import org.firstinspires.ftc.teamcode.ThunderbotsUtil;
 
 /**

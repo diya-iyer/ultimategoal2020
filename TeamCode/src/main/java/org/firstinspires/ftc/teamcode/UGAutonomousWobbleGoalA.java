@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.bak.ThunderbotsSquareAutonomous;
+
 @Autonomous(name="WobbleGoalA", group="Thunderbots")
 public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous {
     UGHardwarePushbot robot = new UGHardwarePushbot();

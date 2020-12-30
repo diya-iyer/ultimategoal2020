@@ -32,8 +32,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.ThunderbotsSquareAutonomous;
-
 @Autonomous(name="Basic: Mecanum Thunderbots RedSquareOneBrick Autonomous", group="Thunderbots")
 
 public class RedSquareOneBrickAutonomous extends ThunderbotsSquareAutonomous {

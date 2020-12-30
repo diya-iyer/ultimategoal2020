@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="Target Line Park", group="Thunderbots")
-public class UGTargetLinePark extends ThunderbotsSquareAutonomous {
+public class UGTargetLineParkBase extends UGTowerGoalBaseAuto {
     @Override
     public void runOpMode() {
 

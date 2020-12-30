@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="Straight Shooter", group="Thunderbots")
-public class UGStraightShooter extends ThunderbotsSquareAutonomous {
+public class UGStraightShooterBase extends UGTowerGoalBaseAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     @Override
     public void runOpMode() {

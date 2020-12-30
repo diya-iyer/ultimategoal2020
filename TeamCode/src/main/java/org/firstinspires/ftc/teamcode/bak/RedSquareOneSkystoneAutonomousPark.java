@@ -34,8 +34,6 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 
-import org.firstinspires.ftc.teamcode.ThunderbotsSquareAutonomous;
-
 //@Autonomous(name="A: Mecanum Thunderbots RedSquareOneSkystone Autonomous", group="Thunderbots")
 
 public class RedSquareOneSkystoneAutonomousPark extends ThunderbotsSquareAutonomous {
