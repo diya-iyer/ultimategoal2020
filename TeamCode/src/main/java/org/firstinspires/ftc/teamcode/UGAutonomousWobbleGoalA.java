@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="WobbleGoalA", group="Thunderbots")
-public class UGAutonomousWobbleGoalA extends UGPowerGoalAuto{
+public class UGAutonomousWobbleGoalA extends UGTowerGoalAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     double powerMultiplier = 0.5;
     double shooterPowerMultiplier = 0.5;
@@ -41,7 +41,7 @@ public class UGAutonomousWobbleGoalA extends UGPowerGoalAuto{
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         dropWobbleGoalAGetIntoShootingPosition();
-        shoot();
+        shootRingsIntoTowerGoal();
         moveforwardandpark();
 
     }

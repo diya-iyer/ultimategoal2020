@@ -1,16 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Autonomous(name="Power Goal Auto", group="Thunderbots")
-public class UGPowerGoalAuto extends ThunderbotsSquareAutonomous {
+public class UGTowerGoalAuto extends ThunderbotsSquareAutonomous {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     @Override
     public void runOpMode() {
@@ -43,7 +38,7 @@ public class UGPowerGoalAuto extends ThunderbotsSquareAutonomous {
         waitForStart();
         gettotargetline();
         strafelefttopowergoal();
-        shoot();
+        shootRingsIntoTowerGoal();
         moveforwardandpark();
 
             // Step through each leg of the path
@@ -78,7 +73,7 @@ public class UGPowerGoalAuto extends ThunderbotsSquareAutonomous {
 
 
     }
-    public void shoot () {
+    public void shootRingsIntoTowerGoal() {
         double shootPowerMultiplier = 0.5;
 
         robot.shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
