@@ -5,8 +5,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="WobbleGoalA", group="Thunderbots")
-public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous{
+public class UGAutonomousWobbleGoalA extends UGPowerGoalAuto{
     UGHardwarePushbot robot = new UGHardwarePushbot();
+    double powerMultiplier = 0.5;
+    double shooterPowerMultiplier = 0.5;
+
     @Override
     public void runOpMode() {
 
@@ -37,15 +40,14 @@ public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous{
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        parktargetline();
-        // Step through each leg of the path
+        dropWobbleGoalAGetIntoShootingPosition();
+        shoot();
+        moveforwardandpark();
 
     }
 
-    public void parktargetline() {
+    public void dropWobbleGoalAGetIntoShootingPosition() {
 
-        double powerMultiplier = 0.5;
-        double shooterPowerMultiplier = 0.5;
 
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -78,31 +80,31 @@ public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous{
 
         encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
 
+    }
+    /*public void shootAndPark() {
         robot.shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.shooterMotor.setPower(shooterPowerMultiplier);
 
+        //shoot 3 pre-loaded rings
         for (int a = 1; a<=3;a++) {
             double triggerPosition = this.robot.triggerServo.MAX_POSITION + 0.5;
             robot.triggerServo.setPosition(triggerPosition);
             sleep(1000);
-           double triggerPosition2 = this.robot.triggerServo.MIN_POSITION - 0.5;
-           robot.triggerServo.setPosition(triggerPosition2);
-           sleep(1000);
+            double triggerPosition2 = this.robot.triggerServo.MIN_POSITION - 0.5;
+            robot.triggerServo.setPosition(triggerPosition2);
+            sleep(1000);
 
         }
         robot.shooterMotor.setPower(0);
 
+        //get into parking location
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
-
-
-
-
-    }
+    }*/
 }
 
 

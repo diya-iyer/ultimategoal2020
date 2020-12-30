@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="WobbleGoalC", group="Thunderbots")
-public class UGAutonomousWobbleGoalC extends ThunderbotsSquareAutonomous{
+public class UGAutonomousWobbleGoalC extends UGPowerGoalAuto{
     UGHardwarePushbot robot = new UGHardwarePushbot();
     @Override
     public void runOpMode() {
@@ -37,12 +37,14 @@ public class UGAutonomousWobbleGoalC extends ThunderbotsSquareAutonomous{
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        parktargetline();
+        dropWobbleGoalCGetIntoShootingPosition();
+        shoot();
+        moveforwardandpark();
         // Step through each leg of the path
 
     }
 
-    public void parktargetline() {
+    public void dropWobbleGoalCGetIntoShootingPosition() {
 
         double powerMultiplier = 0.5;
         double shooterPowerMultiplier = 0.5;
@@ -78,27 +80,7 @@ public class UGAutonomousWobbleGoalC extends ThunderbotsSquareAutonomous{
 
         encoderDrive(DRIVE_SPEED, 24, 24, 1.9);
 
-        robot.shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.shooterMotor.setPower(shooterPowerMultiplier);
 
-        for (int a = 1; a<=3;a++) {
-
-            double collectorPosition = this.robot.collectorServo.MAX_POSITION + 1.5;
-            robot.collectorServo.setPosition(collectorPosition);
-            sleep(1000);
-
-            double triggerPosition = this.robot.triggerServo.MAX_POSITION - 1.5;
-            robot.triggerServo.setPosition(triggerPosition);
-            sleep(1000);
-        }
-        robot.shooterMotor.setPower(0);
-
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
 
 
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="A: UGOpModeQT", group="Thunderbots")
@@ -355,6 +356,20 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
                 }
             }
+    public void detectDistance() {
 
+        // get a reference to our compass
+        OpticalDistanceSensor rangeSensor = hardwareMap.get(OpticalDistanceSensor.class, "sensor_range");
+
+        if (rangeSensor != null) {
+
+             /*telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
+             telemetry.addData("raw optical", rangeSensor.rawOptical());
+             telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
+             telemetry.addData("cm", "%.2f cm", rangeSensor.ge(DistanceUnit.CM));
+             telemetry.update();*/
+            telemetry.addData("Light detected ", rangeSensor.getLightDetected());
+        }
+    }
 
 }
