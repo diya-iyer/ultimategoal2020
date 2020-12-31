@@ -30,10 +30,10 @@ public class UGAutonomousWobbleGoalBaseC extends UGTowerGoalBaseAuto {
 
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Path0", "Starting at %7d :%7d",
+       /* telemetry.addData("Path0", "Starting at %7d :%7d",
                 robot.leftDrive1.getCurrentPosition(),
                 robot.rightDrive1.getCurrentPosition());
-        telemetry.update();
+        telemetry.update(); */
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -49,10 +49,10 @@ public class UGAutonomousWobbleGoalBaseC extends UGTowerGoalBaseAuto {
         double powerMultiplier = 0.5;
         double shooterPowerMultiplier = 0.5;
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         encoderDrive(DRIVE_SPEED, 24, 24, 2.5);
 
@@ -73,10 +73,10 @@ public class UGAutonomousWobbleGoalBaseC extends UGTowerGoalBaseAuto {
 
         encoderDrive(DRIVE_SPEED, 24, 24, 0.9);
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         encoderDrive(DRIVE_SPEED, 24, 24, 1.9);
 

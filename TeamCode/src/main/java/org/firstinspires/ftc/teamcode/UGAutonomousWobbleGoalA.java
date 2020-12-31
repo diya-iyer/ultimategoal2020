@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.bak.ThunderbotsSquareAutonomous;
 
 @Autonomous(name="WobbleGoalA", group="Thunderbots")
-public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous {
+public class UGAutonomousWobbleGoalA extends UGTowerGoalBaseAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     double powerMultiplier = 0.5;
     double shooterPowerMultiplier = 0.5;
@@ -34,10 +34,10 @@ public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous {
 
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Path0", "Starting at %7d :%7d",
-                robot.leftDrive1.getCurrentPosition(),
-                robot.rightDrive1.getCurrentPosition());
-        telemetry.update();
+        //telemetry.addData("Path0", "Starting at %7d :%7d",
+               // robot.leftDrive1.getCurrentPosition(),
+               // robot.rightDrive1.getCurrentPosition());
+      //  telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -51,10 +51,10 @@ public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous {
     public void dropWobbleGoalAGetIntoShootingPosition() {
 
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         encoderDrive(DRIVE_SPEED, 24, 24, 1.9);
 
@@ -75,10 +75,10 @@ public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous {
 
         encoderDrive(DRIVE_SPEED, 24, 24, 0.9);
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
 
@@ -103,10 +103,10 @@ public class UGAutonomousWobbleGoalA extends ThunderbotsSquareAutonomous {
         robot.shooterMotor.setPower(0);
 
         //get into parking location
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
     }

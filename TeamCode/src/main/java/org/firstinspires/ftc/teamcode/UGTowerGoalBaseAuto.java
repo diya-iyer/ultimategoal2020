@@ -58,10 +58,10 @@ public class UGTowerGoalBaseAuto extends LinearOpMode {
         //moveforwardtolaunchline
 
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         encoderDrive(DRIVE_SPEED, 24, 24, 5.0);
 
@@ -88,14 +88,14 @@ public class UGTowerGoalBaseAuto extends LinearOpMode {
 
         for (int a = 1; a<=3;a++) {
 
-            collectorUpDown(true); //lift collector
+           // collectorUpDown(true); lift collector
             sleep(1000);
             // each call of the trigger function moves trigger either in our out
             //So call it twice to move trigger in and then out
             trigger();
             trigger();
             sleep(1000);
-            collectorUpDown(false); //bring collector down
+            //collectorUpDown(false); //bring collector down
             /*robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
