@@ -82,10 +82,6 @@ public class UGStraightShooterBase extends UGTowerGoalBaseAuto {
         robot.shooterMotor.setPower(shooterPowerMultiplier);
 
         for (int a = 1; a<=3;a++) {
-
-            double collectorPosition = this.robot.collectorServo.MAX_POSITION + 1.5;
-            robot.collectorServo.setPosition(collectorPosition);
-            sleep(1000);
             double triggerPosition = this.robot.triggerServo.MAX_POSITION - 1.5;
             robot.triggerServo.setPosition(triggerPosition);
             sleep(1000);
