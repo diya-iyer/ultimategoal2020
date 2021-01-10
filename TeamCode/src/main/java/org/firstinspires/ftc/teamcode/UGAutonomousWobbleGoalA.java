@@ -60,10 +60,10 @@ public class UGAutonomousWobbleGoalA extends UGTowerGoalBaseAuto {
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        encoderDrive(DRIVE_SPEED, 24, 24, 1.9);
+        encoderDrive(DRIVE_SPEED, 24, 24, 1.6);
 
         robot.wobbleArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        encoderDrive(DRIVE_SPEED, 5, 5, 0.3);
+        encoderDrive(DRIVE_SPEED, 5, 5, 0.6);
 
         double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION + 1.0;
         robot.wobbleClawServo.setPosition(wobbleClawPosition);
