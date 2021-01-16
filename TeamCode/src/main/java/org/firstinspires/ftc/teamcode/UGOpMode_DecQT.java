@@ -312,50 +312,48 @@ public class UGOpMode_DecQT extends LinearOpMode {
 
 
 
-            public void wobbleGoal () {
-                boolean wobbleClawOpen = gamepad2.dpad_left;
-                boolean wobbleClawClose = gamepad2.dpad_right;
-                float wobbleArmUp = gamepad2.left_trigger;
-                float wobbleArmDown = gamepad2.right_trigger;
+    public void wobbleGoal () {
+        boolean wobbleClawOpen = gamepad2.dpad_left;
+        boolean wobbleClawClose = gamepad2.dpad_right;
+        float wobbleArmUp = gamepad2.left_trigger;
+        float wobbleArmDown = gamepad2.right_trigger;
 
-                double wobbleClawPositon = robot.wobbleClawServo.getPosition();
-
-
-                MAX_POS = this.robot.wobbleClawServo.MAX_POSITION;
-                MIN_POS = this.robot.wobbleClawServo.MIN_POSITION;
-
-                if (wobbleArmUp > 0.5) {
-                    robot.wobbleArmMotor.setPower(wobbleuppowerMultiplier);
-                }
-                else if (wobbleArmUp == 0) {
-                    robot.wobbleArmMotor.setPower(0);
-                }
-
-                if (wobbleArmDown > 0.5) {
-                    robot.wobbleArmMotor.setPower(-wobbledownpowerMultiplier);
-                }
-                else if (wobbleArmDown == 0) {
-                    robot.wobbleArmMotor.setPower(0);
-                }
+        double wobbleClawPositon = robot.wobbleClawServo.getPosition();
 
 
+        MAX_POS = this.robot.wobbleClawServo.MAX_POSITION;
+        MIN_POS = this.robot.wobbleClawServo.MIN_POSITION;
 
-                 if (wobbleClawOpen) {
-                    telemetry.addData("Claw open", wobbleClawPositon);
-                    if (wobbleClawPositon <= MAX_POS) {
-                        wobbleClawPositon += CLAWINCREMENT;
-                    }
-                    robot.wobbleClawServo.setPosition(wobbleClawPositon);
-                } else if (wobbleClawClose) {
-                    telemetry.addData("Claw close", wobbleClawPositon);
-                    if (wobbleClawPositon >= MIN_POS) {
-                        wobbleClawPositon -= CLAWINCREMENT;
-                        robot.wobbleClawServo.setPosition(wobbleClawPositon);
+        if (wobbleArmUp > 0.5) {
+            robot.wobbleArmMotor.setPower(wobbleuppowerMultiplier);
+        }
+        else if (wobbleArmUp == 0) {
+            robot.wobbleArmMotor.setPower(0);
+        }
 
-                    }
+        if (wobbleArmDown > 0.5) {
+            robot.wobbleArmMotor.setPower(-wobbledownpowerMultiplier);
+        }
+        else if (wobbleArmDown == 0) {
+            robot.wobbleArmMotor.setPower(0);
+        }
 
-                }
+         if (wobbleClawOpen) {
+            telemetry.addData("Claw open", wobbleClawPositon);
+            if (wobbleClawPositon <= MAX_POS) {
+                wobbleClawPositon += CLAWINCREMENT;
             }
+            robot.wobbleClawServo.setPosition(wobbleClawPositon);
+        } else if (wobbleClawClose) {
+            telemetry.addData("Claw close", wobbleClawPositon);
+            if (wobbleClawPositon >= MIN_POS) {
+                wobbleClawPositon -= CLAWINCREMENT;
+                robot.wobbleClawServo.setPosition(wobbleClawPositon);
+
+            }
+
+        }
+    }
     public void detectDistance() {
 
         // get a reference to our compass

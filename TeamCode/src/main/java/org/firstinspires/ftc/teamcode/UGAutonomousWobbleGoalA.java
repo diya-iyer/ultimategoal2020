@@ -13,6 +13,8 @@ public class UGAutonomousWobbleGoalA extends UGTowerGoalBaseAuto {
     private ElapsedTime runtime = new ElapsedTime();
     double powerMultiplier = 0.5;
     double shooterPowerMultiplier = 0.5;
+    double wobbledownpowerMultiplier = 0.5;
+    double wobbleuppowerMultiplier = 0.8;
 
     @Override
     public void runOpMode() {
@@ -60,30 +62,31 @@ public class UGAutonomousWobbleGoalA extends UGTowerGoalBaseAuto {
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        encoderDrive(DRIVE_SPEED, 24, 24, 1.6);
+        //MOVE FORRWARD TO A DROP POSITION
+        encoderDrive(DRIVE_SPEED, 24, 24, 1.2);
 
-        robot.wobbleArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        //DROP WOBBLE
+        //STEP 1: DROP WOBBLE ARM
+        //STEP 2: OPEN CLAW TO RELEASE WOBBLE
+        robot.wobbleArmMotor.setPower(-wobbledownpowerMultiplier);
+        encoderDrive(DRIVE_SPEED, 5, 5, 0.6);
+        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION;
+        robot.wobbleClawServo.setPosition(wobbleClawPosition);
+        robot.wobbleArmMotor.setPower(wobbledownpowerMultiplier);
         encoderDrive(DRIVE_SPEED, 5, 5, 0.6);
 
-        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION + 1.0;
-        robot.wobbleClawServo.setPosition(wobbleClawPosition);
-
-        robot.wobbleArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(DRIVE_SPEED, 5, 5, 0.3);
-
-
+        //STRAFE LEFT
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-
         encoderDrive(DRIVE_SPEED, 24, 24, 0.9);
 
+        //MOVE BACK TO SHOOTING POSITION
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-
         encoderDrive(DRIVE_SPEED, 24, 24, 0.8);
 
     }
