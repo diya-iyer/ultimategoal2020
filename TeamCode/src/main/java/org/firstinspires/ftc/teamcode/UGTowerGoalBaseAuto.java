@@ -177,7 +177,39 @@ public class UGTowerGoalBaseAuto extends LinearOpMode {
      *  1) Move gets to the desired position
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
+     *
      */
+    public void wobbleDrive (double speed,
+                             double Inches,
+                             double timeoutS) {
+        int newWobbleTarget;
+
+        if (opModeIsActive()) {
+            newWobbleTarget = robot.wobbleArmMotor.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH);
+
+            robot.wobbleArmMotor.setTargetPosition(newWobbleTarget);
+
+            robot.wobbleArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            runtime.reset();
+            robot.wobbleArmMotor.setPower(Math.abs(speed));
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.wobbleArmMotor.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1", "Running to %7d :%7d", newWobbleTarget,
+                        robot.wobbleArmMotor.getCurrentPosition());
+                telemetry.update();
+
+                robot.wobbleArmMotor.setPower(0);
+
+                robot.wobbleArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
+        }
+    }
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {

@@ -82,7 +82,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-@TeleOp(name="Basic: Thunderbots SKYSTONE Test Webcam", group ="Thunderbots")
+//@TeleOp(name="Basic: Thunderbots SKYSTONE Test Webcam", group ="Thunderbots")
 //@Disabled
 public class ThunderbotsVuforiaSkyStoneNavigationWebcamOpMode extends LinearOpMode {
 

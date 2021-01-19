@@ -65,7 +65,7 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(powerMultiplier, 24, 24, 1.2);
+        encoderDrive(powerMultiplier, 24, 24, 1.5);
 
         robot.rightDrive2.setPower(0);
         robot.rightDrive1.setPower(0);
@@ -91,7 +91,7 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
         double MAX_POS = this.robot.triggerServo.MAX_POSITION;
         double MIN_POS = this.robot.triggerServo.MIN_POSITION;
 
-        for (int a = 1; a <= 7; a++) {
+        for (int a = 1; a <= 15; a++) {
             sleep (1000);
             triggerPosition = robot.triggerServo.getPosition();
 
@@ -99,22 +99,27 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
                 //triggerPosition += TRIGGERINCREMENT;
                 triggerPosition =MIN_POS;
                 telemetry.addData("Trigger Min", triggerPosition);
+                telemetry.update();
             }
             else if (triggerPosition==MIN_POS) {
                 //triggerPosition -= TRIGGERINCREMENT;
                 triggerPosition= MAX_POS;
                 telemetry.addData("Trigger Max", triggerPosition);
+                telemetry.update();
             }
             else if (triggerPosition < (MIN_POS + (MAX_POS-MIN_POS)/2)){ //closer to min
                 triggerPosition= MAX_POS;
                 telemetry.addData("Trigger Max", triggerPosition);
+                telemetry.update();
             }
             else {//closer to max
                 triggerPosition = MIN_POS;
                 telemetry.addData("Trigger Min", triggerPosition);
+                telemetry.update();
             }
             robot.triggerServo.setPosition(triggerPosition);
             telemetry.addData("A", a);
+            telemetry.update();
         }
 
         robot.shooterMotor.setPower(0);
@@ -123,20 +128,22 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
 
         //Wobble arm moves down
         robot.wobbleArmMotor.setPower(wobbledownpowerMultiplier);
-        encoderDrive(wobbledownpowerMultiplier, 5, 5, 1.0);
+        wobbleDrive(wobbledownpowerMultiplier, 5,  1.0);
         robot.wobbleArmMotor.setPower(0);
-        sleep(5000);
+        sleep(3000);
         //Open Claw
         double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION;
         robot.wobbleClawServo.setPosition(wobbleClawPosition);
-        //Wobble Arm Up
-        robot.wobbleArmMotor.setPower(-wobbledownpowerMultiplier);
-        encoderDrive(wobbledownpowerMultiplier, 5, 5, 0.9);
-        robot.wobbleArmMotor.setPower(0);
+
         robot.rightDrive2.setPower(0);
         robot.rightDrive1.setPower(0);
         robot.leftDrive1.setPower(0);
         robot.leftDrive2.setPower(0);
+        //Wobble Arm Up
+       robot.wobbleArmMotor.setPower(-wobbledownpowerMultiplier);
+        wobbleDrive(wobbledownpowerMultiplier, 5,  0.9);
+        robot.wobbleArmMotor.setPower(0);
+
         sleep(1000);
 
 
@@ -160,6 +167,38 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         encoderDrive(powerMultiplier, 24, 24, 0.2); */
+    }
+
+    public void wobbleDrive (double speed,
+                             double Inches,
+                             double timeoutS) {
+        int newWobbleTarget;
+
+        if (opModeIsActive()) {
+            newWobbleTarget = robot.wobbleArmMotor.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH);
+
+            robot.wobbleArmMotor.setTargetPosition(newWobbleTarget);
+
+            robot.wobbleArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            runtime.reset();
+            robot.wobbleArmMotor.setPower(Math.abs(speed));
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.wobbleArmMotor.isBusy())) {
+
+                // Display it for the driver.
+               telemetry.addData("Path1", "Running to %7d :%7d", newWobbleTarget,
+                        robot.wobbleArmMotor.getCurrentPosition());
+                telemetry.update();
+
+                robot.wobbleArmMotor.setPower(0);
+
+                robot.wobbleArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
+        }
     }
 
     public void encoderDrive(double speed,

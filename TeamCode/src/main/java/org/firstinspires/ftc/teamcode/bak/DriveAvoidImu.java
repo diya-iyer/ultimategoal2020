@@ -22,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name="Drive Avoid Imu", group="Thunderbots")
+//@Autonomous(name="Drive Avoid Imu", group="Thunderbots")
 //@TeleOp(name="DriveAvoidIMUTeleOp", group="Thunderbots")
 //@Disabled
 public class DriveAvoidImu extends LinearOpMode

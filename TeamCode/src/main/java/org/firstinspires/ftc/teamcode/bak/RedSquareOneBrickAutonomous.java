@@ -32,7 +32,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name="Basic: Mecanum Thunderbots RedSquareOneBrick Autonomous", group="Thunderbots")
+//@Autonomous(name="Basic: Mecanum Thunderbots RedSquareOneBrick Autonomous", group="Thunderbots")
 
 public class RedSquareOneBrickAutonomous extends ThunderbotsSquareAutonomous {
 

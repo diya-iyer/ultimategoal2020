@@ -51,7 +51,7 @@ import org.firstinspires.ftc.teamcode.bak.MacHardwarePushbot;
  * name="Basic: Linear OpMode"  changed to name="Basic: Thunderbots OpMode"
  */
 
-@TeleOp(name="Basic: Mecanum Thunderbots Flipped NEW TeleOp1", group="Thunderbots")
+//@TeleOp(name="Basic: Mecanum Thunderbots Flipped NEW TeleOp1", group="Thunderbots")
 
 public class MacThuderbotsOpMode_FlippedNEWLinear extends LinearOpMode {
 

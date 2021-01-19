@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="A: Mecanum Thunderbots BlueSquareOneSkystone Autonomous", group="Thunderbots")
+//@Autonomous(name="A: Mecanum Thunderbots BlueSquareOneSkystone Autonomous", group="Thunderbots")
 
 public class BlueSquareOneSkystoneAutonomous extends ThunderbotsSquareAutonomous {
 
