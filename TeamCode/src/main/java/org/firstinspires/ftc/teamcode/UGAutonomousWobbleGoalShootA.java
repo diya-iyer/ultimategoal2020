@@ -125,14 +125,23 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
         robot.shooterMotor.setPower(0);
 
         sleep(1000);
-
+        //robot moves onto the live
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        //MOVE FORRWARD TO A DROP POSITION
+        encoderDrive(powerMultiplier, 24, 24, 0.4);
         //Wobble arm moves down
         robot.wobbleArmMotor.setPower(wobbledownpowerMultiplier);
         wobbleDrive(wobbledownpowerMultiplier, 5,  1.0);
-        robot.wobbleArmMotor.setPower(0);
+       robot.wobbleArmMotor.setPower(0);
         sleep(3000);
         //Open Claw
-        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION;
+        telemetry.addData("Status", "wobbleclaw is here");
+        telemetry.update();
+
+        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION - 1.0;
         robot.wobbleClawServo.setPosition(wobbleClawPosition);
 
         robot.rightDrive2.setPower(0);
@@ -140,8 +149,8 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
         robot.leftDrive1.setPower(0);
         robot.leftDrive2.setPower(0);
         //Wobble Arm Up
-       robot.wobbleArmMotor.setPower(-wobbledownpowerMultiplier);
-        wobbleDrive(wobbledownpowerMultiplier, 5,  0.9);
+       robot.wobbleArmMotor.setPower(wobbledownpowerMultiplier);
+        wobbleDrive(-wobbledownpowerMultiplier, 5,  0.9);
         robot.wobbleArmMotor.setPower(0);
 
         sleep(1000);
@@ -151,14 +160,14 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
 
 
         //MOVE BACK TO PARK
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+       /* robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         //MOVE FORRWARD TO A DROP POSITION
         encoderDrive(powerMultiplier, 24, 24, 1.2);
 
-        sleep(1000);
+        sleep(1000); */
 
         //get into parking location
        /* robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -189,14 +198,14 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
                     (robot.wobbleArmMotor.isBusy())) {
 
                 // Display it for the driver.
-               telemetry.addData("Path1", "Running to %7d :%7d", newWobbleTarget,
+                telemetry.addData("Path3", "Running to %7d :%7d", newWobbleTarget,
                         robot.wobbleArmMotor.getCurrentPosition());
                 telemetry.update();
-
+            }
                 robot.wobbleArmMotor.setPower(0);
 
                 robot.wobbleArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
+
 
         }
     }
