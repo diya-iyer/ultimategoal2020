@@ -60,6 +60,8 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
 
     public void shootAndPark() {
 
+        robot.shooterMotor.setPower(-shooterPowerMultiplier);
+
         //MOVE FORRWARD TO A SHOOTING POSITION
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -71,11 +73,9 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
         robot.rightDrive1.setPower(0);
         robot.leftDrive1.setPower(0);
         robot.leftDrive2.setPower(0);
-        sleep(2000);
+
         //robot.shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         //SHOOT
-        robot.shooterMotor.setPower(-shooterPowerMultiplier);
-        sleep(2000);
         //shoot 3 pre-loaded rings
        /* for (int a = 1; a <= 3; a++) {
             sleep(1000);
@@ -92,7 +92,7 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
         double MIN_POS = this.robot.triggerServo.MIN_POSITION;
 
         for (int a = 1; a <= 15; a++) {
-            sleep (1000);
+            sleep (500);
             triggerPosition = robot.triggerServo.getPosition();
 
             if (triggerPosition == MAX_POS ) {
@@ -153,7 +153,6 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
         wobbleDrive(-wobbledownpowerMultiplier, 5,  0.9);
         robot.wobbleArmMotor.setPower(0);
 
-        sleep(1000);
 
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);

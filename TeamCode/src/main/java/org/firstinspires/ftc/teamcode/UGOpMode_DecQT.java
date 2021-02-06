@@ -37,6 +37,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
     double powerMultiplier = 1.0; // 1.0
     double wobbledownpowerMultiplier = 0.5;
     double wobbleuppowerMultiplier = 0.8;
+    double endGamePowerMultiplier = 0.5;
     double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
     double COLLECTORINCREMENT = 1.0;
     double TRIGGERINCREMENT = 0.5;
@@ -76,6 +77,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
             collectorUpDown();
             shootRing();
             wobbleGoal();
+            endGameIntake();
             telemetry.update();
         }
 
@@ -353,6 +355,37 @@ public class UGOpMode_DecQT extends LinearOpMode {
             }
 
         }
+    }
+    public void endGameIntake () {
+
+        boolean endGametoggleIntakePressed = gamepad1.x;
+
+        if (endGametoggleIntakePressed ) {
+
+            if (startIntake && startWheel && startIntakeHigh) { //Intake is already running. So Stop it.
+                stopWheel = true;
+                startWheel = false;
+            } else { //the Intake is not running. So Start it.
+                startWheel = true;
+                stopWheel = false;
+            }
+
+
+            shooterPower = this.robot.shooterMotor.getPower();
+            if (stopWheel) { //checking the power of the motors
+                // stop the motors
+                robot.shooterMotor.setPower(0);
+                telemetry.addData("Status", "Stopping endgame motor..");
+            }
+            if (startWheel) {
+                robot.shooterMotor.setPower(-endGamePowerMultiplier);
+                telemetry.addData("Status", "Starting endgame ..");
+            }
+
+            telemetry.update();
+
+        }
+
     }
     public void detectDistance() {
 
