@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -26,7 +27,7 @@ public class UGHardwarePushbot {
         public Servo collectorServo = null;
         public Servo triggerServo = null;
 
-        //Distance sensor to be added
+        public DistanceSensor distanceSensor = null;
 
 
         /* local OpMode members. */
@@ -53,6 +54,8 @@ public class UGHardwarePushbot {
             wobbleClawServo = hwMap.get(Servo.class, "wobble_claw");
             collectorServo = hwMap.get(Servo.class, "collector");
             triggerServo = hwMap.get(Servo.class, "trigger");
+
+            distanceSensor = hwMap.get(DistanceSensor.class, "distance_sensor");
 
             //Initializing all motors with FORWARD direction
             leftDrive1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors

@@ -37,7 +37,7 @@ public class UGOpMode_DecQT extends LinearOpMode {
     double powerMultiplier = 1.0; // 1.0
     double wobbledownpowerMultiplier = 0.5;
     double wobbleuppowerMultiplier = 0.8;
-    double endGamePowerMultiplier = 0.5;
+    double endGamePowerMultiplier = 0.8;
     double CLAWINCREMENT = 1.0; //may have to adjust, check before finalizing
     double COLLECTORINCREMENT = 1.0;
     double TRIGGERINCREMENT = 0.5;
