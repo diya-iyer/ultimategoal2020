@@ -26,6 +26,7 @@ public class UGHardwarePushbot {
         public Servo wobbleClawServo = null;
         public Servo collectorServo = null;
         public Servo triggerServo = null;
+        public Servo distanceServo = null;
 
         public DistanceSensor distanceSensor = null;
 
@@ -54,6 +55,7 @@ public class UGHardwarePushbot {
             wobbleClawServo = hwMap.get(Servo.class, "wobble_claw");
             collectorServo = hwMap.get(Servo.class, "collector");
             triggerServo = hwMap.get(Servo.class, "trigger");
+            distanceServo =hwMap.get(Servo.class,"distance_servo");
 
             distanceSensor = hwMap.get(DistanceSensor.class, "distance_sensor");
 
@@ -93,6 +95,7 @@ public class UGHardwarePushbot {
             wobbleClawServo.setDirection(Servo.Direction.FORWARD);
             collectorServo.setDirection(Servo.Direction.FORWARD);
             triggerServo.setDirection(Servo.Direction.FORWARD);
+            distanceServo.setDirection(Servo.Direction.FORWARD);
 
         }
     }

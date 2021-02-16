@@ -67,7 +67,7 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(powerMultiplier, 24, 24, 1.5);
+        encoderDrive(powerMultiplier, 24, 24, 1.8);
 
         robot.rightDrive2.setPower(0);
         robot.rightDrive1.setPower(0);

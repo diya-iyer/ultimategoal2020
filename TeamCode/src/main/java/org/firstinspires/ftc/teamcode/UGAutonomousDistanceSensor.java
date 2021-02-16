@@ -71,11 +71,14 @@ public void senseRings() {
     robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
     encoderDrive(powerMultiplier, 24, 24, 1.0);
 
+    double distanceServoPosition = this.robot.distanceServo.MAX_POSITION - 1.0;
+    robot.distanceServo.setPosition(distanceServoPosition);
+
     telemetry.addData("deviceName",distanceSensor.getDeviceName() );
     telemetry.addData("range", String.format("%.01f mm", distanceSensor.getDistance(DistanceUnit.MM)));
     telemetry.update();
 
-    if ((distanceSensor.getDistance(DistanceUnit.MM) == 180)) {
+    if ((distanceSensor.getDistance(DistanceUnit.MM) >= 180 && (distanceSensor.getDistance(DistanceUnit.MM) <=200 ))) {
         {
             //MOVE FORWARD TO A SHOOTING POSITION
 
@@ -87,6 +90,12 @@ public void senseRings() {
             robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
             encoderDrive(powerMultiplier, 24, 24, 0.5);
+
+            robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+            encoderDrive(powerMultiplier, 24, 24, 1.0);
 
             robot.rightDrive2.setPower(0);
             robot.rightDrive1.setPower(0);
@@ -168,7 +177,7 @@ public void senseRings() {
 
     }
 
-   else if ((distanceSensor.getDistance(DistanceUnit.MM) == 180)) {
+   else if ((distanceSensor.getDistance(DistanceUnit.MM) >= 160 && (distanceSensor.getDistance(DistanceUnit.MM) < 180 ))) {
         robot.shooterMotor.setPower(-shooterPowerMultiplier);
 
         //MOVE FORRWARD TO A SHOOTING POSITION
@@ -276,7 +285,7 @@ public void senseRings() {
         encoderDrive(powerMultiplier, 24, 24, 0.2);
 
     }
-    else if ((distanceSensor.getDistance(DistanceUnit.MM) == 180)) {
+    else if ((distanceSensor.getDistance(DistanceUnit.MM) >= 100 && (distanceSensor.getDistance(DistanceUnit.MM) <=140))) {
         robot.shooterMotor.setPower(-shooterPowerMultiplier);
 
         //MOVE FORRWARD TO A SHOOTING POSITION
@@ -284,7 +293,13 @@ public void senseRings() {
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(powerMultiplier, 24, 24, 1.5);
+        encoderDrive(powerMultiplier, 24, 24, 0.5);
+
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        encoderDrive(powerMultiplier, 24, 24, 1.0);
 
         robot.rightDrive2.setPower(0);
         robot.rightDrive1.setPower(0);
@@ -378,6 +393,73 @@ public void senseRings() {
         //MOVE FORRWARD TO A DROP POSITION
         encoderDrive(powerMultiplier, 24, 24, 1.2);
 
+    }
+
+    else   {
+
+        robot.shooterMotor.setPower(-shooterPowerMultiplier);
+
+        //MOVE FORRWARD TO A SHOOTING POSITION
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        encoderDrive(powerMultiplier, 24, 24, 1.3); //used to be 1.5
+
+        robot.rightDrive2.setPower(0);
+        robot.rightDrive1.setPower(0);
+        robot.leftDrive1.setPower(0);
+        robot.leftDrive2.setPower(0);
+
+
+        //SHOOT
+
+
+        double triggerPosition = robot.triggerServo.getPosition();
+        double MAX_POS = this.robot.triggerServo.MAX_POSITION;
+        double MIN_POS = this.robot.triggerServo.MIN_POSITION;
+
+        for (int a = 1; a <= 10; a++) {
+            sleep (500);
+            triggerPosition = robot.triggerServo.getPosition();
+
+            if (triggerPosition == MAX_POS ) {
+                //triggerPosition += TRIGGERINCREMENT;
+                triggerPosition =MIN_POS;
+                telemetry.addData("Trigger Min", triggerPosition);
+                telemetry.update();
+            }
+            else if (triggerPosition==MIN_POS) {
+                //triggerPosition -= TRIGGERINCREMENT;
+                triggerPosition= MAX_POS;
+                telemetry.addData("Trigger Max", triggerPosition);
+                telemetry.update();
+            }
+            else if (triggerPosition < (MIN_POS + (MAX_POS-MIN_POS)/2)){ //closer to min
+                triggerPosition= MAX_POS;
+                telemetry.addData("Trigger Max", triggerPosition);
+                telemetry.update();
+            }
+            else {//closer to max
+                triggerPosition = MIN_POS;
+                telemetry.addData("Trigger Min", triggerPosition);
+                telemetry.update();
+            }
+            robot.triggerServo.setPosition(triggerPosition);
+            telemetry.addData("A", a);
+            telemetry.update();
+        }
+
+        robot.shooterMotor.setPower(0);
+
+
+        //robot moves onto the live
+        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+        //MOVE FORRWARD TO A DROP POSITION
+        encoderDrive(strafePowerMultiplier, 24, 24, 0.5);
     }
 
 }
