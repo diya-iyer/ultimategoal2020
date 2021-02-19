@@ -48,19 +48,12 @@ public class UGAutonomousDistanceSensor extends UGTowerGoalBaseAuto {
         robot.shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-        // Send telemetry message to indicate successful Encoder reset
-        //telemetry.addData("Path0", "Starting at %7d :%7d",
-        // robot.leftDrive1.getCurrentPosition(),
-        // robot.rightDrive1.getCurrentPosition());
-        //  telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         senseRings();
 
 
-       /* shootRingsIntoTowerGoal();
-        moveforwardandpark(); */
 
     }
 public void senseRings() {
@@ -191,11 +184,7 @@ public void senseRings() {
         robot.rightDrive1.setPower(0);
         robot.leftDrive1.setPower(0);
         robot.leftDrive2.setPower(0);
-
-
         //SHOOT
-
-
         double triggerPosition = robot.triggerServo.getPosition();
         double MAX_POS = this.robot.triggerServo.MAX_POSITION;
         double MIN_POS = this.robot.triggerServo.MIN_POSITION;
@@ -305,20 +294,7 @@ public void senseRings() {
         robot.rightDrive1.setPower(0);
         robot.leftDrive1.setPower(0);
         robot.leftDrive2.setPower(0);
-
-        //robot.shooterMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         //SHOOT
-        //shoot 3 pre-loaded rings
-       /* for (int a = 1; a <= 3; a++) {
-            sleep(1000);
-            telemetry.addData("Status", "Trigger");
-            double triggerposition = this.robot.triggerServo.MAX_POSITION+1.5;
-            robot.triggerServo.setPosition(triggerposition);
-            telemetry.addData("Status", "Trigger Back");
-            triggerposition = this.robot.triggerServo.MIN_POSITION-1.5;
-            robot.triggerServo.setPosition(triggerposition);
-
-        }*/
         double triggerPosition = robot.triggerServo.getPosition();
         double MAX_POS = this.robot.triggerServo.MAX_POSITION;
         double MIN_POS = this.robot.triggerServo.MIN_POSITION;
@@ -410,11 +386,7 @@ public void senseRings() {
         robot.rightDrive1.setPower(0);
         robot.leftDrive1.setPower(0);
         robot.leftDrive2.setPower(0);
-
-
         //SHOOT
-
-
         double triggerPosition = robot.triggerServo.getPosition();
         double MAX_POS = this.robot.triggerServo.MAX_POSITION;
         double MIN_POS = this.robot.triggerServo.MIN_POSITION;
