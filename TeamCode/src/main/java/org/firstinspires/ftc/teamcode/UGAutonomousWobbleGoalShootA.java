@@ -12,7 +12,7 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     private ElapsedTime runtime = new ElapsedTime();
     double powerMultiplier = 0.4;
-    double shooterPowerMultiplier = 1.0;
+    double shooterPowerMultiplier = 0.9;
     double wobbledownpowerMultiplier = 0.6;
     double wobbleuppowerMultiplier = 0.6;
     double TRIGGERINCREMENT = 0.5;
@@ -67,7 +67,7 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(powerMultiplier, 24, 24, 1.8);
+        encoderDrive(powerMultiplier, 24, 24, 1.6);
 
         robot.rightDrive2.setPower(0);
         robot.rightDrive1.setPower(0);

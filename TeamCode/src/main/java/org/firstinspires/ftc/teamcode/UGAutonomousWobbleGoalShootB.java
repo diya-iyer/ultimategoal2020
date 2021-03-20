@@ -12,7 +12,7 @@ public class UGAutonomousWobbleGoalShootB extends UGTowerGoalBaseAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     private ElapsedTime runtime = new ElapsedTime();
     double powerMultiplier = 0.4;
-    double shooterPowerMultiplier = 1.0;
+    double shooterPowerMultiplier = 0.9;
     double wobbledownpowerMultiplier = 0.8;
     double wobbleuppowerMultiplier = 0.8;
     double strafePowerMultiplier = 0.5;
@@ -68,7 +68,7 @@ public class UGAutonomousWobbleGoalShootB extends UGTowerGoalBaseAuto {
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        encoderDrive(powerMultiplier, 24, 24, 1.8); //used to be 1.5
+        encoderDrive(powerMultiplier, 24, 24, 1.6); //used to be 1.5
 
         robot.rightDrive2.setPower(0);
         robot.rightDrive1.setPower(0);
@@ -132,12 +132,12 @@ public class UGAutonomousWobbleGoalShootB extends UGTowerGoalBaseAuto {
         //MOVE FORRWARD TO A DROP POSITION
         encoderDrive(powerMultiplier, 24, 24, 1.2);
 
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+      //  robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+       // robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
+    //    robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
+    //    robot.rightDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
         //MOVE FORRWARD TO A DROP POSITION
-        encoderDrive(strafePowerMultiplier, 24, 24, 0.3);
+      //  encoderDrive(strafePowerMultiplier, 24, 24, 0.3);
 
         //Wobble arm moves down
         robot.wobbleArmMotor.setPower(wobbledownpowerMultiplier);
@@ -160,20 +160,6 @@ public class UGAutonomousWobbleGoalShootB extends UGTowerGoalBaseAuto {
         wobbleDrive(-wobbledownpowerMultiplier, 5,  0.9);
         robot.wobbleArmMotor.setPower(0);
 
-
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.REVERSE);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        //MOVE FORRWARD TO A DROP POSITION
-        encoderDrive(powerMultiplier, 24, 24, 1.0);
-
-        robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
-        //MOVE FORRWARD TO A DROP POSITION
-        encoderDrive(powerMultiplier, 24, 24, 0.2);
 
 
 
