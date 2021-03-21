@@ -62,6 +62,9 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
 
         robot.shooterMotor.setPower(-shooterPowerMultiplier);
 
+        double collectorPosition = robot.collectorServo.MIN_POSITION + 1.0;
+        robot.triggerServo.setPosition(collectorPosition);
+
         //MOVE FORRWARD TO A SHOOTING POSITION
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -75,8 +78,7 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
         robot.leftDrive2.setPower(0);
         //SHOOT
 
-        double triggerPosition = robot.wobbleClawServo
-                .getPosition();
+        double triggerPosition = robot.wobbleClawServo.getPosition();
         double MAX_POS = this.robot.wobbleClawServo.MAX_POSITION;
         double MIN_POS = this.robot.wobbleClawServo.MIN_POSITION;
 
