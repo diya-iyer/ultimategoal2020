@@ -87,13 +87,13 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
             robot.triggerServo.setPosition(triggerposition);
 
         }*/
-        double triggerPosition = robot.triggerServo.getPosition();
-        double MAX_POS = this.robot.triggerServo.MAX_POSITION;
-        double MIN_POS = this.robot.triggerServo.MIN_POSITION;
+        double triggerPosition = robot.wobbleClawServo.getPosition();
+        double MAX_POS = this.robot.wobbleClawServo.MAX_POSITION;
+        double MIN_POS = this.robot.wobbleClawServo.MIN_POSITION;
 
         for (int a = 1; a <= 15; a++) {
             sleep (500);
-            triggerPosition = robot.triggerServo.getPosition();
+            triggerPosition = robot.wobbleClawServo.getPosition();
 
             if (triggerPosition == MAX_POS ) {
                 //triggerPosition += TRIGGERINCREMENT;
@@ -117,7 +117,7 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
                 telemetry.addData("Trigger Min", triggerPosition);
                 telemetry.update();
             }
-            robot.triggerServo.setPosition(triggerPosition);
+            robot.wobbleClawServo.setPosition(triggerPosition);
             telemetry.addData("A", a);
             telemetry.update();
         }
@@ -141,7 +141,7 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
         telemetry.addData("Status", "wobbleclaw is here");
         telemetry.update();
 
-        double wobbleClawPosition = this.robot.wobbleClawServo.MAX_POSITION - 1.0;
+        double wobbleClawPosition = this.robot.triggerServo.MAX_POSITION - 1.0;
         robot.wobbleClawServo.setPosition(wobbleClawPosition);
 
         robot.rightDrive2.setPower(0);
