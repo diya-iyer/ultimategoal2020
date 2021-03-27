@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.bak.ThunderbotsSquareAutonomous;
 
-@Autonomous(name="ShootWobbleGoalC", group="Thunderbots")
+@Autonomous(name="ShooterWobbleGoalC", group="Thunderbots")
 public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     private ElapsedTime runtime = new ElapsedTime();
     double powerMultiplier = 0.4;
-    double shooterPowerMultiplier = 0.9;
+    double shooterPowerMultiplier = 0.4;
     double wobbledownpowerMultiplier = 0.8;
     double wobbleuppowerMultiplier = 0.8;
     double TRIGGERINCREMENT = 0.5;

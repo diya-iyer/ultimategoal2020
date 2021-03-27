@@ -12,7 +12,7 @@ public class UGAutonomousWobbleGoalShootA extends UGTowerGoalBaseAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     private ElapsedTime runtime = new ElapsedTime();
     double powerMultiplier = 0.4;
-    double shooterPowerMultiplier = 0.9;
+    double shooterPowerMultiplier = 0.7;
     double wobbledownpowerMultiplier = 0.6;
     double wobbleuppowerMultiplier = 0.6;
     double TRIGGERINCREMENT = 0.5;
