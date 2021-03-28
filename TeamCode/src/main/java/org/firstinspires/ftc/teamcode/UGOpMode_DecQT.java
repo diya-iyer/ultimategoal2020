@@ -261,55 +261,25 @@ public class UGOpMode_DecQT extends LinearOpMode {
         }
     }
     public void shootRing() {
-        boolean triggerPressed = gamepad2.x;
-        double oldtriggerPosition =robot.triggerServo.getPosition();
-        double triggerPosition = robot.triggerServo.getPosition();
+        boolean triggerIn = gamepad2.dpad_up;
+        boolean triggerOut = gamepad2.dpad_down;
 
-        MAX_POS = this.robot.triggerServo.MAX_POSITION;
-        MIN_POS = this.robot.triggerServo.MIN_POSITION;
-        //if (gamepad1.x && triggerPosition < MAX_POS) {
-         //   telemetry.addData("Trigger Activated", triggerPosition);
-         //    triggerPosition += .01;
-         // }
+        double triggerPositon = robot.triggerServo.getPosition();
 
-        if (triggerPressed) {  // trigger pressed a
-            telemetry.addData("Trigger Pressed; Current Position: ", triggerPosition);
-            /*if (activateTrigger) //trigger has already been activated.
-                return;*/
-            /*if ( (getRuntime() - aLastTriggerTime) < 2) //trigger button clicked too frequently. Allow 2 secs
-                return;*/
-            activateTrigger=true;
-            //aLastTriggerTime= getRuntime();
-            telemetry.addData("Trigger Activated; Current Position: ", triggerPosition);
-            if (triggerPosition == MAX_POS ) {
-                //triggerPosition += TRIGGERINCREMENT;
-                triggerPosition =MIN_POS;
+        if (triggerIn) {
+            telemetry.addData("Claw open", triggerPositon);
+            if (triggerPositon <= MAX_POS) {
+                triggerPositon += CLAWINCREMENT;
             }
-            else if (triggerPosition==MIN_POS) {
-                //triggerPosition -= TRIGGERINCREMENT;
-                triggerPosition= MAX_POS;
-            }
-            else if (triggerPosition < (MIN_POS + (MAX_POS-MIN_POS)/2)){ //closer to min
-                triggerPosition= MAX_POS;
-            }
-            else //closer to max
-                triggerPosition= MIN_POS;
-            robot.triggerServo.setPosition(triggerPosition);
-            telemetry.addData("Trigger Activated; New Position: ", triggerPosition);
-            //After triggering  go back to old position
-            //robot.triggerServo.setPosition(oldtriggerPosition);
+            robot.triggerServo.setPosition(triggerPositon);
+        } else if (triggerOut) {
+            telemetry.addData("Claw close", triggerPositon);
+            if (triggerPositon >= MIN_POS) {
+                triggerPositon-= CLAWINCREMENT;
+                robot.triggerServo.setPosition(triggerPositon);
 
-
-            /*if (activateTrigger) {
-            telemetry.addData("Trigger Activated", triggerPosition);
-            if (triggerPosition <= MAX_POS) {
-                triggerPosition += TRIGGERINCREMENT;
-            } */
+            }
         }
-        else {
-            activateTrigger = false;
-        }
-
     }
 
 

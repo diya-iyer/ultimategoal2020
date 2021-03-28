@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.bak.ThunderbotsSquareAutonomous;
 
-@Autonomous(name="ShooterWobbleGoalC", group="Thunderbots")
-public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
+@Autonomous(name="ShooterWobbleGoalC9", group="Thunderbots")
+public class UGAutonomousWobbleGoalShootC9 extends UGTowerGoalBaseAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     private ElapsedTime runtime = new ElapsedTime();
     double powerMultiplier = 0.4;
-    double shooterPowerMultiplier = 0.4;
+    double shooterPowerMultiplier = 0.9;
     double wobbledownpowerMultiplier = 0.8;
     double wobbleuppowerMultiplier = 0.8;
     double TRIGGERINCREMENT = 0.5;
@@ -38,7 +38,7 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
         robot.leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.wobbleArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         // Send telemetry message to indicate successful Encoder reset
@@ -145,7 +145,7 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
         telemetry.update();
 
         double wobbleClawPosition = this.robot.triggerServo.MAX_POSITION - 1.0;
-        robot.wobbleClawServo.setPosition(wobbleClawPosition);
+        robot.triggerServo.setPosition(wobbleClawPosition);
 
         robot.rightDrive2.setPower(0);
         robot.rightDrive1.setPower(0);
@@ -156,13 +156,14 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
         wobbleDrive(-wobbledownpowerMultiplier, 5,  0.9);
         robot.wobbleArmMotor.setPower(0);
 
+        sleep(1000);
 
         robot.leftDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive1.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.leftDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.rightDrive2.setDirection(DcMotorSimple.Direction.FORWARD);
         //MOVE FORRWARD TO A DROP POSITION
-        encoderDrive(powerMultiplier, 24, 24, 1.6);
+        encoderDrive(powerMultiplier, 24, 24, 1.4);
 
 
 
@@ -289,3 +290,4 @@ public class UGAutonomousWobbleGoalShootC extends UGTowerGoalBaseAuto {
     }
 
 }
+

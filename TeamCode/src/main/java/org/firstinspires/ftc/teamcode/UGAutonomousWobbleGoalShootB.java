@@ -12,7 +12,7 @@ public class UGAutonomousWobbleGoalShootB extends UGTowerGoalBaseAuto {
     UGHardwarePushbot robot = new UGHardwarePushbot();
     private ElapsedTime runtime = new ElapsedTime();
     double powerMultiplier = 0.4;
-    double shooterPowerMultiplier = 0.7;
+    double shooterPowerMultiplier = 0.9;
     double wobbledownpowerMultiplier = 0.8;
     double wobbleuppowerMultiplier = 0.8;
     double strafePowerMultiplier = 0.5;
@@ -39,7 +39,7 @@ public class UGAutonomousWobbleGoalShootB extends UGTowerGoalBaseAuto {
         robot.leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.wobbleArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         // Send telemetry message to indicate successful Encoder reset
